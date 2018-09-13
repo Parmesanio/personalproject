@@ -1,0 +1,27 @@
+@media only screen and (min-width: 0px) {
+    header {
+        background: sandybrown;
+        display: flex;
+        justify-content: space-between;
+        align-content: center;
+        height: 70px;
+    }
+    nav {
+        background: #444;
+        position: absolute;
+        right: 100%;
+        transition: 0.35s all;
+        width: 80%;
+        height: 100vh;
+    }
+    .show {
+        right: 20%;
+    }
+    nav a {
+        color: #fff;
+        display: block;
+        padding: 12px 0;
+        text-decoration: none;
+        width: 100%;
+    }
+  }

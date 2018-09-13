@@ -1,0 +1,1 @@
+select * from admin where auth0id = $1;
