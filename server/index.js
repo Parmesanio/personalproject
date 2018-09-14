@@ -50,11 +50,14 @@ app.get(`/auth/callback`, (req, res) => {
   
     function storeUserInfoInDatabase(response) {
       const auth0Id = response.data.sub;
+      console.log(response.data);
+      
       const db = req.app.get('db');
       return db.get_admin_by_auth0_id(auth0Id).then(user => {
           if (user[0].auth0id == auth0Id) {
               let { name, picture, email } = response.data
                const userArray = {
+                    id: user[0].id,
                     name,
                     picture,
                     email

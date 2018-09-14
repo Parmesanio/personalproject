@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { createPrimateProfile } from '../../redux/reducer';
 
 class Create extends Component {
     constructor(props) {
@@ -10,8 +11,9 @@ class Create extends Component {
             dob: '',
             gender: '',
             bio: '',
-            photo_urls: []
+            photo_urls: ''
          }
+         this.onSubmit = this.onSubmit.bind(this)
     }
     handleName(event) {
         console.log(event.target.value);
@@ -55,13 +57,19 @@ class Create extends Component {
     //         favorites: event.target.value
     //     })
     // }
+    onSubmit(event) {
+        event.preventDefault();
+    }
     render() {
-        let { admin } = this.props;
+        let { name, species, dob, gender, bio, photo_urls } = this.state
+        let { admin, createPrimateProfile } = this.props;
+        let { id } = admin;
+        
         return ( 
             admin.name ? 
             <div>
                 <h1>Create Primate Profile</h1>
-                <form>
+                <form onSubmit={(event) => this.onSubmit(event)}>
                     <label>Name:</label>
                     <input onChange={(event) => this.handleName(event)} type="text" placeholder="Name..." />
                     <label>Species:</label>
@@ -73,8 +81,8 @@ class Create extends Component {
                     <label>Bio:</label>
                     <textarea onChange={(event) => this.handleBio(event)} type="text" placeholder="Bio..."></textarea>
                     <label>Photos:</label>
-                    
-                    <button>Submit</button>
+                    <input onChange={(event) => this.handlePhotos(event)} type="text" placeholder="Separate image URLs with commas..." />
+                    <button onClick={() => createPrimateProfile(name, species, dob, gender, bio, photo_urls, id)}>Submit</button>
                 </form>
             </div>
             : <p>Log in to view this page</p>
@@ -90,4 +98,4 @@ const mapStateToProps = state => {
     }
 }
  
-export default connect(mapStateToProps, {})(Create);
+export default connect(mapStateToProps, {createPrimateProfile})(Create);
