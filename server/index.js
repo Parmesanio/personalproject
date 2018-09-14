@@ -95,7 +95,8 @@ app.get('/api/admin-data', (req, res) => {
 //GET PRIMATES
 app.get('/api/primates', pC.getAll);
 app.post('/api/primates', pC.create);
-
+//DELETE PROFILE
+app.delete('/api/primate/:id', pC.deleteProfile)
 
 
 //LOGOUT

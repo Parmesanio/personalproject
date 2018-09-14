@@ -10,8 +10,7 @@ class Create extends Component {
             dob: '',
             gender: '',
             bio: '',
-            photo_urls: [],
-            favorites: []
+            photo_urls: []
          }
     }
     handleName(event) {
@@ -50,12 +49,12 @@ class Create extends Component {
             photo_urls: event.target.value
         })
     }
-    handleFavorites(event) {
-        console.log(event.target.value);
-        this.setState({
-            favorites: event.target.value
-        })
-    }
+    // handleFavorites(event) {
+    //     console.log(event.target.value);
+    //     this.setState({
+    //         favorites: event.target.value
+    //     })
+    // }
     render() {
         let { admin } = this.props;
         return ( 
@@ -74,9 +73,7 @@ class Create extends Component {
                     <label>Bio:</label>
                     <textarea onChange={(event) => this.handleBio(event)} type="text" placeholder="Bio..."></textarea>
                     <label>Photos:</label>
-                    <input onChange={(event) => this.handlePhotos(event)} type="text" placeholder="Photos..." />
-                    <label>Favorites:</label>
-                    <input onChange={(event) => this.handleFavorites(event)} type="text" placeholder="Favorites..." />
+                    
                     <button>Submit</button>
                 </form>
             </div>

@@ -1,0 +1,1 @@
+delete from primates where id = $1;

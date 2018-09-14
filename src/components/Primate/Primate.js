@@ -14,6 +14,7 @@ class Primate extends Component {
             <img src={photo_urls[0]} alt={name} />
             <h1>{name}</h1>
             <h2>{species}</h2>
+            
         </div></Link>
         : 
         <div>
