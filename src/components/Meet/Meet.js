@@ -1,19 +1,17 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { setPrimates, deleteProfile } from '../../redux/reducer';
+import { deleteProfile } from '../../redux/reducer';
 import Primate from '../Primate/Primate';
+import { Link } from 'react-router-dom';
 
 class Meet extends Component {
-    componentDidMount() {
-        this.props.setPrimates()
-    }
     render() { 
         let { primateList, admin, deleteProfile } = this.props;
         const mappedList = primateList.map(primate => {
             return (
                 <div key={primate.id}>
                     <Primate {...primate} />
-                   {admin && <button>Edit Profile</button>}
+                   {admin && <Link to={`/add-primate/${primate.id}`}>Edit Profile</Link>}
                    {admin && <button onClick={() => deleteProfile(primate.id)}>Delete Profile</button>}
                 </div>
             )
@@ -33,7 +31,6 @@ const mapStateToProps = state => {
     }
 }
 const mapDispatchToProps = {
-    setPrimates,
     deleteProfile
 }
  

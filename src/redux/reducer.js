@@ -9,7 +9,8 @@ const initialState = {
 const SET_PRIMATES      = 'SET_PRIMATES',
       SET_ADMIN         = 'SET_ADMIN',
       DELETE_PROFILE    = 'DELETE_PROFILE',
-      CREATE_PROFILE    = 'CREATE_PROFILE';
+      CREATE_PROFILE    = 'CREATE_PROFILE',
+      EDIT_PROFILE      = 'EDIT_PROFILE';
 
 
 export default function primateReducer(state=initialState, action) {
@@ -30,6 +31,10 @@ export default function primateReducer(state=initialState, action) {
             return {...state, isLoading: true}
         case `${CREATE_PROFILE}_FULFILLED`:
             return {...state, isLoading: false}
+        case `${EDIT_PROFILE}_PENDING`:
+            return {...state, isLoading: true}
+        case `${EDIT_PROFILE}_FULFILLED`:
+            return {...state, isLoading: false}
         default:
             return {...state}
     }
@@ -38,13 +43,13 @@ export default function primateReducer(state=initialState, action) {
 export function setPrimates() {
     return {
         type: SET_PRIMATES,
-        payload: axios.get('/api/primates').then(response => response.data)
+        payload: axios.get('/api/primates').then(response => response.data).catch(err => console.log('Err in setPRimates', err))
     }
 }
 export function logIn() {
     return {
         type: SET_ADMIN,
-        payload: axios.get('/api/admin-data').then(response => response.data)
+        payload: axios.get('/api/admin-data').then(response => response.data).catch(err => console.log('Err in setAdmin', err))
     }
 }
 export function deleteProfile(id) {
@@ -57,5 +62,11 @@ export function createPrimateProfile(name, species, dob, gender, bio, photo_urls
      return {
         type: CREATE_PROFILE,
         payload: axios.post('/api/primates', {name, species, dob, gender, bio, photo_urls, id}).then(() => window.location.pathname = '/meet-the-primates').catch(err => console.log('Err in createProfile', err))
+    }
+}
+export function editPrimateProfile(id, name, species, dob, gender, bio, photo_urls, admin_id) {
+    return {
+        type: EDIT_PROFILE,
+        payload: axios.put(`/api/primate/${id}`, {name, species, dob, gender, bio, photo_urls, admin_id}).then(() => window.location.pathname = '/meet-the-primates').catch(err => console.log('Err in createProfile', err.response))
     }
 }

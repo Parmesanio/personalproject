@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { connect } from 'react-redux';
-import { logIn } from '../../redux/reducer';
+import { logIn, setPrimates } from '../../redux/reducer';
 
 import './header.css';
 
@@ -17,6 +17,7 @@ class Header extends Component {
     }
     componentDidMount() {
         this.props.logIn();
+        this.props.setPrimates();
       }
 
     handleToggle() {
@@ -36,7 +37,7 @@ class Header extends Component {
         return ( 
             <header>
                 <div className='brand'>
-                <h1>Logo</h1>
+                <h1><Link to="/">Logo</Link></h1>
                 </div>
                 <nav className={isToggled ? 'show' : ''}>
                     {admin.name && <div><img src={admin.picture} alt={admin.name} /> <p>Welcome, {admin.name}</p></div> }
@@ -60,7 +61,8 @@ const mapStateToProps = state => {
     }
 }
 const mapDispatchToProps = {
-    logIn
+    logIn,
+    setPrimates
 }
  
 export default connect(mapStateToProps, mapDispatchToProps)(Header);

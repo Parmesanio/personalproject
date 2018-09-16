@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import About from '../About/About';
 import Donate from '../Donate/Donate';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
+import FacebookProvider, { Page } from 'react-facebook';
 
 class Landing extends Component {
     render() { 
@@ -10,7 +12,9 @@ class Landing extends Component {
                 Landing Page
                 <About />
                 <Donate />
-                <div className="fb-page" data-href="https://www.facebook.com/The-Talkin-Monkeys-Project-227167320632809/" data-tabs="events" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/The-Talkin-Monkeys-Project-227167320632809/" className="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/The-Talkin-Monkeys-Project-227167320632809/">The Talkin&#039; Monkeys Project</a></blockquote></div>
+                <FacebookProvider appId="478006302682854">
+                    <Page href="https://www.facebook.com/The-Talkin-Monkeys-Project-227167320632809/" tabs="events" />
+                </FacebookProvider>
             </div>
          );
     }
@@ -23,4 +27,4 @@ const mapStateToProps = state => {
     }
 }
  
-export default connect(mapStateToProps, {})(Landing);
+export default connect(mapStateToProps, {})(withRouter(Landing));

@@ -1,0 +1,1 @@
+select * from primates where id = $1;

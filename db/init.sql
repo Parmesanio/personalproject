@@ -15,6 +15,7 @@ dob varchar(64),
 gender varchar(20),
 bio text,
 photo_urls text[],
+favorites text[],
 admin_id integer references admin (id)
 );
 
