@@ -32,7 +32,8 @@ module.exports = {
         let { name, species, dob, gender, bio, photo_urls, admin_id } = req.body;
         let { id } = req.params;
 
-        db.update_primate([id, name, species, dob, gender, bio, photo_urls, admin_id])
-            .then(() => res.status(200).send());
+        db.update_primate([id, name, species, dob, gender, bio, `{${photo_urls}}`, admin_id])
+            .then(() => res.status(200).send())
+            .catch(err => console.log('Err in db.update_primate', err));
     }
 }

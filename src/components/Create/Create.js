@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
+import Dropzone from 'react-dropzone';
+import request from 'superagent';
 import { connect } from 'react-redux';
 import { createPrimateProfile, editPrimateProfile } from '../../redux/reducer';
 import { withRouter } from 'react-router-dom';
-
+const CLOUDINARY_UPLOAD_PRESET = 'talkinmonkeysproject',
+      CLOUDINARY_UPLOAD_URL    = 'https://api.cloudinary.com/v1_1/parmesanio/upload';
 class Create extends Component {
     constructor(props) {
         super(props);
@@ -12,9 +15,12 @@ class Create extends Component {
             dob: '',
             gender: '',
             bio: '',
-            photo_urls: ''
+            photo_urls: '',
+            uploadedFileCloudinaryUrl: '',
+            uploadedFiles: []
          }
-         this.onSubmit = this.onSubmit.bind(this)
+         this.onSubmit = this.onSubmit.bind(this);
+        //  this.onImageDrop = this.onImageDrop.bind(this);
     }
     componentDidMount() {
         let currentProfile = {};
@@ -60,6 +66,38 @@ class Create extends Component {
             photo_urls: event.target.value
         })
     }
+    onImageDrop(files) {
+        console.log(files);
+        
+        this.setState({
+          uploadedFiles: files
+        });
+    
+        this.handleImageUpload(files);
+      }
+      handleImageUpload(file) {
+          console.log('handleImageUpload', file);
+          
+        let upload = request.post(CLOUDINARY_UPLOAD_URL)
+                            .field('upload_preset', CLOUDINARY_UPLOAD_PRESET)
+                            .field('file', file);
+                            console.log(upload);
+                            
+    
+        upload.end((err, response) => {
+            console.log(response);
+            
+          if (err) {
+            console.error(err);
+          }
+    
+          if (response.body.secure_url !== '') {
+            this.setState({
+              uploadedFileCloudinaryUrl: response.body.secure_url
+            });
+          }
+        });
+      }
     // handleFavorites(event) {
     //     console.log(event.target.value);
     //     this.setState({
@@ -70,9 +108,19 @@ class Create extends Component {
         event.preventDefault();
     }
     render() {
-        let { name, species, dob, gender, bio, photo_urls } = this.state
+        let { name, species, dob, gender, bio, photo_urls, uploadedFiles } = this.state
         let { admin, createPrimateProfile, editPrimateProfile, primateList } = this.props;
         let { id } = this.props.match.params;
+        let mappedCloudPhotos = uploadedFiles.map(file => {
+            {photo_urls += ',' + this.state.uploadedFileCloudinaryUrl}
+            return <div>
+            {this.state.uploadedFileCloudinaryUrl === '' ? null :
+            <div>
+            <p>{file.name}</p>
+            {/* <img src={this.state.uploadedFileCloudinaryUrl} /> */}
+            </div>}
+        </div>
+        })
         
         return ( 
             admin.name ? this.props.match.params.id ? 
@@ -90,7 +138,14 @@ class Create extends Component {
                     <label>Bio:</label>
                     <textarea onChange={(event) => this.handleBio(event)} type="text" value={bio || ''}></textarea>
                     <label>Photos:</label>
-                    <input onChange={(event) => this.handlePhotos(event)} type="text" value={photo_urls || ''} />
+                    <Dropzone
+                        multiple={true}
+                        accept="image/*"
+                        onDrop={this.onImageDrop.bind(this)}>
+                        <p>Drop an image or click to select a file to upload.</p>
+                    </Dropzone>
+                    {mappedCloudPhotos}
+                    <textarea onChange={(event) => this.handlePhotos(event)} type="text" value={photo_urls || ''} />
                     <button onClick={() => editPrimateProfile(id, name, species, dob, gender, bio, photo_urls, admin.id)}>Submit</button>
                 </form>
             </div>

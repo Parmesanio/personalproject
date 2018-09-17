@@ -65,6 +65,8 @@ export function createPrimateProfile(name, species, dob, gender, bio, photo_urls
     }
 }
 export function editPrimateProfile(id, name, species, dob, gender, bio, photo_urls, admin_id) {
+    console.log(photo_urls);
+    
     return {
         type: EDIT_PROFILE,
         payload: axios.put(`/api/primate/${id}`, {name, species, dob, gender, bio, photo_urls, admin_id}).then(() => window.location.pathname = '/meet-the-primates').catch(err => console.log('Err in createProfile', err.response))
