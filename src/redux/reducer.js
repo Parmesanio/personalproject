@@ -2,11 +2,13 @@ import axios from 'axios';
 
 const initialState = {
     primateList: [],
+    productList: [],
     isLoading: false,
     admin: {}
 }
 
 const SET_PRIMATES      = 'SET_PRIMATES',
+      SET_PRODUCTS      = 'SET_PRODUCTS',
       SET_ADMIN         = 'SET_ADMIN',
       DELETE_PROFILE    = 'DELETE_PROFILE',
       CREATE_PROFILE    = 'CREATE_PROFILE',
@@ -19,6 +21,10 @@ export default function primateReducer(state=initialState, action) {
             return {...state, isLoading: true}
         case `${SET_PRIMATES}_FULFILLED`:
             return {...state, primateList: action.payload, isLoading: false}
+        case `${SET_PRODUCTS}_PENDING`:
+            return {...state, isLoading: true}
+        case `${SET_PRODUCTS}_FULFILLED`:
+            return {...state, productList: action.payload, isLoading: false}
         case `${SET_ADMIN}_PENDING`:
             return {...state, isLoading: true}
         case `${SET_ADMIN}_FULFILLED`:
@@ -43,7 +49,13 @@ export default function primateReducer(state=initialState, action) {
 export function setPrimates() {
     return {
         type: SET_PRIMATES,
-        payload: axios.get('/api/primates').then(response => response.data).catch(err => console.log('Err in setPRimates', err))
+        payload: axios.get('/api/primates').then(response => response.data).catch(err => console.log('Err in setPrimates', err))
+    }
+}
+export function setProducts() {
+    return {
+        type: SET_PRODUCTS,
+        payload: axios.get('/api/products').then(response => response.data).catch(err => console.log('Err in setProducts', err))
     }
 }
 export function logIn() {

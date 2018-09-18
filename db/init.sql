@@ -1,10 +1,16 @@
 drop table if exists admin;
-drop table if exists primates;
+drop table if exists primates cascade;
+drop table if exists users;
+drop table if exists products cascade;
 
 create table admin (
 id serial primary key,
 auth0id text unique not null,
 email text
+);
+create table users (
+id serial primary key,
+auth0id text unique not null
 );
 
 create table primates(
@@ -19,6 +25,26 @@ favorites text[],
 admin_id integer references admin (id)
 );
 
+create table products(
+id serial primary key,
+name text,
+price decimal,
+product_url text,
+description json,
+in_stock boolean
+);
+
+insert into products
+(name, price, product_url, description, in_stock)
+values
+('Spanky - Tote Bag', 17.99, 'https://i3.cpcache.com/product/287917893/spanky_tote_bag.jpg?color=Khaki&height=150&width=150', '{ "sizes": ["Small", "Medium"], "dimensions": {"small": "15 x 15 x 6", "medium": "15 x 18 x 6"}, "information": "Make this shopping tote your new grocery bag, library tote, or beach tote.  Machine wash cold inside out with like colors and tumble dry low for easy and convenient care." }' , true );
+
+create table orders(
+id serial primary key,
+user_id integer references users (id),
+product_id integer references products (id)
+);
+
 insert into primates
 (name, species, dob, gender, bio, photo_urls, admin_id)
 values
@@ -29,5 +55,8 @@ values
 
 select * from admin;
 select * from primates;
+select * from products;
+select * from users;
+select * from orders;
 
 

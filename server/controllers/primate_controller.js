@@ -1,7 +1,13 @@
 module.exports = {
-    getAll: (req, res) => {
+    getAllPrimates: (req, res) => {
         const db = req.app.get('db');
         db.get_primates().then(response => {
+            res.send(response)
+        })
+    },
+    getAllProducts: (req, res) => {
+        const db = req.app.get('db');
+        db.get_products().then(response => {
             res.send(response)
         })
     },

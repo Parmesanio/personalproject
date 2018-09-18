@@ -4,6 +4,7 @@ const express           = require('express'),
       session           = require('express-session'),
       axios             = require('axios'),
       pC                = require('./controllers/primate_controller'),
+      stripe = require("stripe")("sk_test_uV3JAqgj5mGtJICkj5X7WyrY"),
       app               = express();
       require('dotenv').config();
 
@@ -19,7 +20,7 @@ app.use(session({
     }
 }))
 
-
+//DB CONFIG
 massive(process.env.CONNECTION_STRING)
     .then( db => {
         app.set('db', db);
@@ -94,13 +95,16 @@ app.get('/api/admin-data', (req, res) => {
     res.json(req.session.user);
 });
 //GET PRIMATES
-app.get('/api/primates', pC.getAll);
-app.get('/api/primates/:id', pC.getProfile)
+app.get('/api/primates', pC.getAllPrimates);
+app.get('/api/primates/:id', pC.getProfile);
+//CREATE PRIMATE PROFILE
 app.post('/api/primates', pC.create);
-//DELETE PROFILE
+//DELETE PRIMATE PROFILE
 app.delete('/api/primate/:id', pC.deleteProfile)
-//UPDATE PROFILE
+//UPDATE PRIMATE PROFILE
 app.put('/api/primate/:id', pC.updateProfile)
+//GET PRODUCTS
+app.get('/api/products', pC.getAllProducts)
 
 
 //LOGOUT
@@ -108,6 +112,21 @@ app.post('/api/logout', (req, res) => {
     req.session.destroy();
     res.send();
 })
+
+//STRIPE CONFIG
+// Set your secret key: remember to change this to your live secret key in production
+// See your keys here: https://dashboard.stripe.com/account/apikeys
+
+app.post('api.stripe.com', (req, res) => {
+    const charge = stripe.charges.create({
+        amount: 999,
+        currency: 'usd',
+        source: 'tok_visa',
+        receipt_email: 'sean.parmar@yahoo.com',
+      });
+      
+
+});
 
 const PORT = process.env.PORT;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`))
