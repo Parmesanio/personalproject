@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { setPrimates } from '../../redux/reducer';
 
 class Primate extends Component {
     render() { 
         let { id, name, species, photo_urls} = this.props
     return ( 
-        <Link to={`/meet-the-primates/${id}`}><div>
+        <Link key={id} to={`/meet-the-primates/${id}`}><div>
             <img src={photo_urls[0]} alt={name} />
             <h1>{name}</h1>
             <h2>{species}</h2>  
@@ -13,5 +15,11 @@ class Primate extends Component {
      );
     }
 }
+const mapStateToProps = state => {
+    let { primateList } = state.primates;
+    return {
+        primateList
+    }
+}
  
-export default Primate;
+export default connect(mapStateToProps, {setPrimates})(Primate);

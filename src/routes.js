@@ -7,18 +7,20 @@ import Create from './components/Create/Create';
 import PrimateProfile from './components/PrimateProfile/PrimateProfile';
 import Products from './components/Products/Products';
 import ProductDetails from './components/ProductDetails/ProductDetails';
+import Checkout from './components/Checkout/Checkout';
 
 
 export default (
     <Switch>
+        <Route path='/checkout' component={Checkout} />
         <Route path='/products/:id' component={ProductDetails} />
         <Route path='/products' component={Products} />
         <Route path='/add-primate/:id' component={Create} />
         <Route path='/add-primate' component={Create} />
         <Route path='/users/login' component={Login} />
         <Route path='/admin/login' component={Login} />
-        <Route path='/meet-the-primates/:id' component={PrimateProfile} />
-        <Route path='/meet-the-primates' component={Meet} />
+        <Route exact path='/meet-the-primates/:id' component={PrimateProfile} />
+        <Route exact path='/meet-the-primates' component={Meet} />
         <Route path='/' component={Landing} />
     </Switch>
 )

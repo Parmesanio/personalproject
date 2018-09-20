@@ -23,7 +23,7 @@ class PrimateProfile extends Component {
             let mappedPhotos = photo_urls.map((photo, i) => {
                 return <img key={i} src={photo} alt={name} />
             })
-            return <div>
+            return <div key={primate.id}>
             {mappedPhotos}
             <h1>{name}</h1>
             <h2>{species}</h2>

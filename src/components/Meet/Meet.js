@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { deleteProfile } from '../../redux/reducer';
+import { deleteProfile, setPrimates } from '../../redux/reducer';
 import Primate from '../Primate/Primate';
 import { Link } from 'react-router-dom';
 
 class Meet extends Component {
+    componentDidMount() {
+        this.props.setPrimates();
+    }
     render() { 
         let { primateList, admin, deleteProfile } = this.props;
         const mappedList = primateList.map(primate => {
@@ -31,7 +34,8 @@ const mapStateToProps = state => {
     }
 }
 const mapDispatchToProps = {
-    deleteProfile
+    deleteProfile,
+    setPrimates
 }
  
 export default connect(mapStateToProps, mapDispatchToProps)(Meet);

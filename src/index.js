@@ -4,13 +4,14 @@ import './index.css';
 import App from './App';
 // import registerServiceWorker from './registerServiceWorker';
 import { BrowserRouter } from 'react-router-dom';
+import {StripeProvider} from 'react-stripe-elements';
 import { Provider } from 'react-redux';
 import store from './redux/store';
 
 ReactDOM.render(
     <Provider store={store} >
         <BrowserRouter>
-            <App />
+                <App />
         </BrowserRouter>
     </Provider>
 , document.getElementById('root'));

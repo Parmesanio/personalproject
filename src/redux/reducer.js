@@ -4,7 +4,9 @@ const initialState = {
     primateList: [],
     productList: [],
     isLoading: false,
-    admin: {}
+    admin: {},
+    sessionCart: [],
+    sessionTotal: 0
 }
 
 const SET_PRIMATES      = 'SET_PRIMATES',
@@ -12,7 +14,10 @@ const SET_PRIMATES      = 'SET_PRIMATES',
       SET_ADMIN         = 'SET_ADMIN',
       DELETE_PROFILE    = 'DELETE_PROFILE',
       CREATE_PROFILE    = 'CREATE_PROFILE',
-      EDIT_PROFILE      = 'EDIT_PROFILE';
+      EDIT_PROFILE      = 'EDIT_PROFILE',
+      SET_CART          = 'SET_CART',
+      ADD_TO_CART       = 'ADD_TO_CART',
+      REMOVE_FROM_CART  = 'REMOVE_FROM_CART';
 
 
 export default function primateReducer(state=initialState, action) {
@@ -41,6 +46,13 @@ export default function primateReducer(state=initialState, action) {
             return {...state, isLoading: true}
         case `${EDIT_PROFILE}_FULFILLED`:
             return {...state, isLoading: false}
+        case `${ADD_TO_CART}_FULFILLED`:
+        console.log(state);
+            return {...state, sessionCart: [...state.sessionCart, action.payload.cart], sessionTotal: action.payload.total}
+        case `${SET_CART}_FULFILLED`:
+            return {...state, sessionCart: action.payload.cart, sessionTotal: action.payload.total}
+        case `${REMOVE_FROM_CART}_FULFILLED`:
+            return {...state, sessionCart: action.payload.cart, sessionTotal: action.payload.total}
         default:
             return {...state}
     }
@@ -55,7 +67,9 @@ export function setPrimates() {
 export function setProducts() {
     return {
         type: SET_PRODUCTS,
-        payload: axios.get('/api/products').then(response => response.data).catch(err => console.log('Err in setProducts', err))
+        payload: axios.get('/api/products').then(response => {
+            return response.data;
+        }).catch(err => console.log('Err in setProducts', err))
     }
 }
 export function logIn() {
@@ -77,10 +91,26 @@ export function createPrimateProfile(name, species, dob, gender, bio, photo_urls
     }
 }
 export function editPrimateProfile(id, name, species, dob, gender, bio, photo_urls, admin_id) {
-    console.log(photo_urls);
-    
     return {
         type: EDIT_PROFILE,
         payload: axios.put(`/api/primate/${id}`, {name, species, dob, gender, bio, photo_urls, admin_id}).then(() => window.location.pathname = '/meet-the-primates').catch(err => console.log('Err in createProfile', err.response))
+    }
+}
+export function setCart() {
+    return {
+        type: SET_CART,
+        payload: axios.get('/api/user/cart').then(res => res.data).catch(err => console.log('Err in set cart', err))
+    }
+}
+export function addToCart(product) {
+    return {
+        type: ADD_TO_CART,
+        payload: axios.post('/api/user/cart', {product}).then(res => res.data).catch(err => console.log('Err in addToCart', err))
+    }
+}
+export function removeFromCart(id) {
+    return {
+        type: REMOVE_FROM_CART,
+        payload: axios.delete(`/api/user/cart/${id}`).then(res => res.data).catch(err => console.log('Err in removeFromCart', err))
     }
 }

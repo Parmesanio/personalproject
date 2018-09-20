@@ -11,12 +11,13 @@ const express           = require('express'),
 
 //Middleware
 app.use(bodyParser.json());
+app.use(bodyParser.text());
 app.use(session({
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
     cookie: {
-        maxAge: 1000 * 60 * 60 * 24 * 365
+        maxAge: 1000 * 60 * 60 * 24 * 7
     }
 }))
 
@@ -52,21 +53,21 @@ app.get(`/auth/callback`, (req, res) => {
     function storeUserInfoInDatabase(response) {
       const auth0Id = response.data.sub;
       const db = req.app.get('db');
-      return db.get_admin_by_auth0_id(auth0Id).then(user => {
-          if (user[0].auth0id == auth0Id) {
+      return db.get_admin_by_auth0_id(auth0Id).then(admin => {
+          if (admin[0].auth0id == auth0Id) {
               let { name, picture, email } = response.data
                const userArray = {
-                    id: user[0].id,
+                    id: admin[0].id,
                     name,
                     picture,
                     email
                     };
                     if (user.length) {
-                    req.session.user = userArray;
+                    req.session.admin = userArray;
                     res.redirect('/');
                     } else {
                     return db.create_admin([auth0Id, email]).then(newUser => {
-                        req.session.user = userArray;
+                        req.session.admin = userArray;
                         res.redirect('/');
                     }).catch(error => {
                         console.log('error in db.create_user', error);
@@ -92,8 +93,29 @@ app.get(`/auth/callback`, (req, res) => {
   });
 //GET SESSION
 app.get('/api/admin-data', (req, res) => {
-    res.json(req.session.user);
+    res.json(req.session.admin);
 });
+app.get('/api/user/cart', (req, res) => {
+    req.session.cart ? null : req.session.cart = [], req.session.total = 0;
+    res.json(req.session)
+})
+app.post('/api/user/cart', (req, res) => {
+    let { product } = req.body;
+    console.log(parseFloat(product.price));
+    
+    req.session.cart.push(product)
+    req.session.total += parseFloat(product.price);
+    res.json(req.session);
+    
+});
+app.delete('/api/user/cart/:id', (req, res) => {
+    let { id } = req.params;
+    let index = req.session.cart.findIndex(item => item.id == id);
+    req.session.total -= parseFloat(req.session.cart[index].price);
+    index !== -1 ? req.session.cart.splice(index, 1) : res.send('Item not in cart');
+    res.json(req.session)
+    
+})
 //GET PRIMATES
 app.get('/api/primates', pC.getAllPrimates);
 app.get('/api/primates/:id', pC.getProfile);
@@ -117,16 +139,35 @@ app.post('/api/logout', (req, res) => {
 // Set your secret key: remember to change this to your live secret key in production
 // See your keys here: https://dashboard.stripe.com/account/apikeys
 
-app.post('api.stripe.com', (req, res) => {
-    const charge = stripe.charges.create({
-        amount: 999,
-        currency: 'usd',
-        source: 'tok_visa',
-        receipt_email: 'sean.parmar@yahoo.com',
-      });
+// app.post('/api/stripe', (req, res) => {
+//     const charge = stripe.charges.create({
+//         amount: 999,
+//         currency: 'usd',
+//         source: 'tok_visa',
+//         receipt_email: 'sean.parmar@yahoo.com',
+//       });
       
 
-});
+// });
+app.post("/charge", async (req, res) => {
+    console.log(req.body);
+    let { id, amount } = req.body
+    
+    try {
+      let {status} = await stripe.charges.create({
+        amount: amount,
+        currency: "usd",
+        description: "An example charge",
+        source: id
+      });
+  
+      res.json({status});
+    } catch (err) {
+      res.status(500).end();
+    }
+  });
+
+
 
 const PORT = process.env.PORT;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`))
