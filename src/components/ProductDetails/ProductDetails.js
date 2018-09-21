@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { setProducts, addToCart } from '../../redux/reducer';
-import StripeCheckout from 'react-stripe-checkout';
 
 
 class ProductDetails extends Component {

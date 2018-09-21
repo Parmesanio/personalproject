@@ -8,10 +8,12 @@ import PrimateProfile from './components/PrimateProfile/PrimateProfile';
 import Products from './components/Products/Products';
 import ProductDetails from './components/ProductDetails/ProductDetails';
 import Checkout from './components/Checkout/Checkout';
+import Volunteer from './components/Volunteer/Volunteer';
 
 
 export default (
     <Switch>
+        <Route path='/volunteer' component={Volunteer} />
         <Route path='/checkout' component={Checkout} />
         <Route path='/products/:id' component={ProductDetails} />
         <Route path='/products' component={Products} />

@@ -4,3 +4,9 @@
   padding: 0;
   box-sizing: border-box;
 }
+#map {
+  position: relative;
+  height: 50vh;
+  
+}
+

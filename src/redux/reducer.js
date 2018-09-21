@@ -6,7 +6,8 @@ const initialState = {
     isLoading: false,
     admin: {},
     sessionCart: [],
-    sessionTotal: 0
+    sessionTotal: 0,
+    weather: []
 }
 
 const SET_PRIMATES      = 'SET_PRIMATES',
@@ -17,7 +18,8 @@ const SET_PRIMATES      = 'SET_PRIMATES',
       EDIT_PROFILE      = 'EDIT_PROFILE',
       SET_CART          = 'SET_CART',
       ADD_TO_CART       = 'ADD_TO_CART',
-      REMOVE_FROM_CART  = 'REMOVE_FROM_CART';
+      REMOVE_FROM_CART  = 'REMOVE_FROM_CART',
+      SET_WEATHER       = 'SET_WEATHER';
 
 
 export default function primateReducer(state=initialState, action) {
@@ -46,18 +48,26 @@ export default function primateReducer(state=initialState, action) {
             return {...state, isLoading: true}
         case `${EDIT_PROFILE}_FULFILLED`:
             return {...state, isLoading: false}
+        case `${ADD_TO_CART}_PENDING`:
+            return {...state, isLoading: true}
         case `${ADD_TO_CART}_FULFILLED`:
-        console.log(state);
-            return {...state, sessionCart: [...state.sessionCart, action.payload.cart], sessionTotal: action.payload.total}
+            return {...state, sessionCart: action.payload.cart, sessionTotal: action.payload.total, isLoading: false}
+        case `${SET_CART}_PENDING`:
+            return {...state, isLoading: true}
         case `${SET_CART}_FULFILLED`:
-            return {...state, sessionCart: action.payload.cart, sessionTotal: action.payload.total}
+            return {...state, sessionCart: action.payload.cart, sessionTotal: action.payload.total, isLoading: false}
+        case `${REMOVE_FROM_CART}_PENDING`:
+            return {...state, isLoading: true}
         case `${REMOVE_FROM_CART}_FULFILLED`:
-            return {...state, sessionCart: action.payload.cart, sessionTotal: action.payload.total}
+            return {...state, sessionCart: action.payload.cart, sessionTotal: action.payload.total, isLoading: false}
+        case `${SET_WEATHER}_PENDING`:
+            return {...state, isLoading: true}
+        case `${SET_WEATHER}_FULFILLED`:
+            return {...state, weather: action.payload, isLoading: false}
         default:
             return {...state}
     }
 }
-
 export function setPrimates() {
     return {
         type: SET_PRIMATES,
@@ -70,6 +80,13 @@ export function setProducts() {
         payload: axios.get('/api/products').then(response => {
             return response.data;
         }).catch(err => console.log('Err in setProducts', err))
+    }
+}
+export function setWeather() {
+    return {
+        type: SET_WEATHER,
+        payload: axios.get('http://api.openweathermap.org/data/2.5/forecast?id=4151366&APPID=42f85a624e44cf0c1e9d9d4f641fbede&units=imperial')
+            .then(res => console.log(res.data)).catch(err => console.log('Err in SET_WEATHER', err))
     }
 }
 export function logIn() {

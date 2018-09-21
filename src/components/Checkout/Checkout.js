@@ -2,22 +2,8 @@ import React, { Component } from 'react';
 import CheckoutForm from '../CheckoutForm/CheckoutForm';
 import {Elements, StripeProvider} from 'react-stripe-elements';
 import ShoppingCart from '../ShoppingCart/ShoppingCart';
-import { connect } from 'react-redux';
-import { setCart } from '../../redux/reducer';
-
-
 class Checkout extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {  }
-    }
-    componentDidMount() {
-        this.props.setCart();
-    }
-
-    render() { 
-        let { sessionCart } = this.props;
-        
+    render() {  
         return ( 
             <div>
                 <StripeProvider apiKey="pk_test_LcmEKJ7CVohHZeNgbJANn1ZF">
@@ -31,11 +17,4 @@ class Checkout extends Component {
     }
 }
 
-const mapStateToProps = state => {
-    let { sessionCart } = state.primates;
-    return {
-        sessionCart
-    }
-}
- 
-export default connect(mapStateToProps, {setCart})(Checkout);
+export default Checkout;

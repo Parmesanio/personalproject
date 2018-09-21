@@ -5,6 +5,8 @@ const express           = require('express'),
       axios             = require('axios'),
       pC                = require('./controllers/primate_controller'),
       stripe = require("stripe")("sk_test_uV3JAqgj5mGtJICkj5X7WyrY"),
+      nodemailer        = require('nodemailer'),
+      config            = require('./controllers/config'),
       app               = express();
       require('dotenv').config();
 
@@ -20,14 +22,30 @@ app.use(session({
         maxAge: 1000 * 60 * 60 * 24 * 7
     }
 }))
-
 //DB CONFIG
 massive(process.env.CONNECTION_STRING)
     .then( db => {
         app.set('db', db);
     })
     .catch(err => console.log('Err in massive', err));
-
+//NODEMAILER
+var transport = {
+    host: 'smtp.gmail.com',
+    auth: {
+      user: config.USER,
+      pass: config.PASS
+    }
+  }
+  
+  var transporter = nodemailer.createTransport(transport)
+  
+  transporter.verify((error, success) => {
+    if (error) {
+      console.log(error);
+    } else {
+      console.log('Server is ready to take messages');
+    }
+  });
 
 //AUTH0
 app.get(`/auth/callback`, (req, res) => {
@@ -62,7 +80,7 @@ app.get(`/auth/callback`, (req, res) => {
                     picture,
                     email
                     };
-                    if (user.length) {
+                    if (admin.length) {
                     req.session.admin = userArray;
                     res.redirect('/');
                     } else {
@@ -96,12 +114,16 @@ app.get('/api/admin-data', (req, res) => {
     res.json(req.session.admin);
 });
 app.get('/api/user/cart', (req, res) => {
-    req.session.cart ? null : req.session.cart = [], req.session.total = 0;
-    res.json(req.session)
+    if (req.session.cart == undefined && req.session.total == undefined) {
+        req.session.cart = [];
+        req.session.total = 0;
+        res.json(req.session)
+    }else if (req.session.cart !== [] && req.session.total !== 0) {
+        res.json(req.session)
+    }
 })
 app.post('/api/user/cart', (req, res) => {
     let { product } = req.body;
-    console.log(parseFloat(product.price));
     
     req.session.cart.push(product)
     req.session.total += parseFloat(product.price);
@@ -134,6 +156,36 @@ app.post('/api/logout', (req, res) => {
     req.session.destroy();
     res.send();
 })
+//NODEMAILER
+app.post('/send', (req, res, next) => {
+    console.log(req.body);
+    
+    var name = req.body.name
+    var email = req.body.email
+    var message = req.body.message
+    var content = `name: ${name} \n email: ${email} \n message: ${message} `
+    console.log('CONTENT',content);
+    
+  
+    var mail = {
+      from: name,
+      to: config.USER,  //Change to email address that you want to receive messages on
+      subject: "New Message from The Talkin' Monkeys Project, Inc. Website",
+      text: content
+    }
+  
+    transporter.sendMail(mail, (err, data) => {
+      if (err) {
+        res.json({
+          msg: 'fail'
+        })
+      } else {
+        res.json({
+          msg: 'success'
+        })
+      }
+    })
+  })
 
 //STRIPE CONFIG
 // Set your secret key: remember to change this to your live secret key in production
