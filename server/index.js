@@ -4,7 +4,7 @@ const express           = require('express'),
       session           = require('express-session'),
       axios             = require('axios'),
       pC                = require('./controllers/primate_controller'),
-      stripe = require("stripe")("sk_test_uV3JAqgj5mGtJICkj5X7WyrY"),
+      stripe = require("stripe")(process.env.STRIPE_SECRET_KEY),
       nodemailer        = require('nodemailer'),
       config            = require('./controllers/config'),
       app               = express();
@@ -22,6 +22,7 @@ app.use(session({
         maxAge: 1000 * 60 * 60 * 24 * 7
     }
 }))
+app.use(express.static(`${__dirname}/public`))
 //DB CONFIG
 massive(process.env.CONNECTION_STRING)
     .then( db => {
@@ -117,9 +118,11 @@ app.get('/api/user/cart', (req, res) => {
     if (req.session.cart == undefined && req.session.total == undefined) {
         req.session.cart = [];
         req.session.total = 0;
-        res.json(req.session)
+        res.json(req.session);
     }else if (req.session.cart !== [] && req.session.total !== 0) {
-        res.json(req.session)
+        res.json(req.session);
+    } else {
+        res.json(req.session);
     }
 })
 app.post('/api/user/cart', (req, res) => {
@@ -190,32 +193,36 @@ app.post('/send', (req, res, next) => {
 //STRIPE CONFIG
 // Set your secret key: remember to change this to your live secret key in production
 // See your keys here: https://dashboard.stripe.com/account/apikeys
-
-// app.post('/api/stripe', (req, res) => {
-//     const charge = stripe.charges.create({
-//         amount: 999,
-//         currency: 'usd',
-//         source: 'tok_visa',
-//         receipt_email: 'sean.parmar@yahoo.com',
-//       });
-      
-
-// });
-app.post("/charge", async (req, res) => {
-    console.log(req.body);
-    let { id, amount } = req.body
+  app.post('/save-stripe-token', async (req, res) => {
+    let { token, amount } = req.body
+    let { email, id } = token;
+    console.log('VALUES ===================', email, id, amount.toFixed(0));
     
     try {
-      let {status} = await stripe.charges.create({
-        amount: amount,
-        currency: "usd",
-        description: "An example charge",
-        source: id
-      });
-  
-      res.json({status});
+        let { status } = await stripe.customers.create({
+            email,
+            source: id
+        }).then(customer =>  stripe.charges.create({
+                amount: amount.toFixed(0),
+                description: "Sample Charge",
+                currency: "usd",
+                customer: customer.id
+            
+        })).then(charge => {
+            req.session.cart = [];
+            req.session.total = 0;
+            res.send(charge)
+        })
+        .catch(err => console.log('Err in create charge', err))
+        // .then(() =>{
+        //     //CLEAR CART/TOTAL
+        //     req.session.cart = [];
+        //     req.session.total = 0;
+        //     res.send(req.session)
+        // })
+        // .catch(err => console.log('Err in charges', err))
     } catch (err) {
-      res.status(500).end();
+        res.status(500).end()
     }
   });
 
