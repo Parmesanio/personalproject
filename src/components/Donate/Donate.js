@@ -1,8 +1,10 @@
 import React from 'react';
+import './donate.css';
 
 const Donate = () => {
     return ( 
-        <div>Donate
+        <div className="donate">
+            Donate
             <form action="https://www.paypal.com/cgi-bin/webscr" method="post">
                 <div align="center">
                     <input name="cmd" value="_s-xclick" type="hidden" />

@@ -1,0 +1,10 @@
+footer {
+    background:  var(--secondary-color);
+    min-height: 20vh;
+    /* position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0; */
+    padding-top: 50px;
+    position: relative;
+}

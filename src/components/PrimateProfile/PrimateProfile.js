@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import './primateprofile.css';
 
 class PrimateProfile extends Component {
     constructor(props) {
@@ -23,7 +24,7 @@ class PrimateProfile extends Component {
             let mappedPhotos = photo_urls.map((photo, i) => {
                 return <img key={i} src={photo} alt={name} />
             })
-            return <div key={primate.id}>
+            return <div className="primateProfile" key={primate.id}>
             {mappedPhotos}
             <h1>{name}</h1>
             <h2>{species}</h2>

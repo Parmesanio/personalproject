@@ -1,0 +1,18 @@
+.products {
+    min-height: 100vh;
+    padding: 60px 0;
+}
+.products img {
+    width: 50%;
+}
+.products button {
+    background: var(--main-color);
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    cursor: pointer;
+    padding: 12px 20px;
+}
+a .moreInfo {
+    background: var(--secondary-color);
+}

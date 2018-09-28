@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { setProducts, addToCart } from '../../redux/reducer';
+import './products.css';
 
 class Products extends Component {
     componentDidMount() {
@@ -17,12 +18,12 @@ class Products extends Component {
                 <h4>{name}</h4>
                 <p>${price}</p>
                 <button onClick={() => addToCart(product)}>Add To Cart</button>
-                <Link to={`/products/${product.id}`}><button>More Info</button></Link>
+                {" "}
+                <Link to={`/products/${product.id}`}><button className="moreInfo">More Info</button></Link>
             </div>
         });
         return ( 
-            <div>
-                Products
+            <div className="products">
                 {mappedProducts}
             </div>
          );

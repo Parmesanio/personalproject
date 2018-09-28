@@ -1,0 +1,46 @@
+.about {
+    min-height: 100vh;
+    padding: 60px 0;
+    position: relative;
+}
+.about img {
+    border-radius: 50%;
+    border: 2px solid var(--main-color);
+    width: 200px;
+    height: 200px;
+}
+.about div {
+    height: 70vh;
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    margin: 0 auto;
+    position: relative;
+}
+/* .hide { Save for Larger screen
+    opacity: 0;
+    position: absolute;
+    bottom: -5%;
+    transition: all 0.35s;
+} */
+.hide {
+    background: var(--main-color);
+    border-radius: 30px;
+    color: #fff;
+    padding: 20px;
+    text-decoration: none;
+}
+.aboutShow {
+    opacity: 1;
+    bottom: 0;
+}
+.about .image {
+    background: url('../images/dr_deb_about.jpg') no-repeat;
+    background-size: cover;
+    background-position-x: center;
+    border: 3px solid var(--main-color);
+    border-radius: 50%;
+    height: 200px;
+    width: 200px;
+}

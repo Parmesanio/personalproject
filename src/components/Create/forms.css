@@ -1,0 +1,10 @@
+.forms form input, textarea {
+    border-radius: 5px;
+    border: 1px solid;
+    display: block;
+    padding: 12px 20px;
+    width: 80%;
+}
+.forms form > * {
+    margin: 1em auto;
+}

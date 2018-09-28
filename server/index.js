@@ -3,8 +3,9 @@ const express           = require('express'),
       massive           = require('massive'),
       session           = require('express-session'),
       axios             = require('axios'),
-      pC                = require('./controllers/primate_controller'),
-      stripe = require("stripe")(process.env.STRIPE_SECRET_KEY),
+      primateC          = require('./controllers/primate_controller'),
+      productC          = require('./controllers/product_controller'),
+      stripe            = require("stripe")(process.env.STRIPE_SECRET_KEY),
       nodemailer        = require('nodemailer'),
       config            = require('./controllers/config'),
       app               = express();
@@ -13,7 +14,7 @@ const express           = require('express'),
 
 //Middleware
 app.use(bodyParser.json());
-app.use(bodyParser.text());
+// app.use(bodyParser.text());
 app.use(session({
     secret: process.env.SESSION_SECRET,
     resave: false,
@@ -22,7 +23,7 @@ app.use(session({
         maxAge: 1000 * 60 * 60 * 24 * 7
     }
 }))
-app.use(express.static(`${__dirname}/public`))
+app.use(express.static(`${__dirname}/../build`));
 //DB CONFIG
 massive(process.env.CONNECTION_STRING)
     .then( db => {
@@ -49,15 +50,15 @@ var transport = {
   });
 
 //AUTH0
-app.get(`/auth/callback`, (req, res) => {
-    console.log('/auth/callback fired');
+app.get(`/callback`, (req, res) => {
+    console.log('/callback fired');
     
     const payload = {
       client_id: process.env.REACT_APP_AUTH0_CLIENT_ID,
       client_secret: process.env.AUTH0_CLIENT_SECRET,
       code: req.query.code,
       grant_type: 'authorization_code',
-      redirect_uri: `http://${req.headers.host}/auth/callback`
+      redirect_uri: `http://${req.headers.host}/callback`
     };
   
     function tradeCodeForAccessToken() {
@@ -100,13 +101,13 @@ app.get(`/auth/callback`, (req, res) => {
                 console.log('error in db.get_user_by_auth0_id', error);
                 res.status(500).send('Unexpected error');
             });
-            }
+        }
         
     tradeCodeForAccessToken()
     .then(tradeAccessTokenForUserInfo)
     .then(storeUserInfoInDatabase)
     .catch(error => {
-      console.log('error in /auth/callback', error);
+      console.log('error in /callback', error);
       res.status(500).send('Unexpected error');
     });
   });
@@ -142,16 +143,20 @@ app.delete('/api/user/cart/:id', (req, res) => {
     
 })
 //GET PRIMATES
-app.get('/api/primates', pC.getAllPrimates);
-app.get('/api/primates/:id', pC.getProfile);
+app.get('/api/primates', primateC.getAllPrimates);
+app.get('/api/primates/:id', primateC.getProfile);
 //CREATE PRIMATE PROFILE
-app.post('/api/primates', pC.create);
+app.post('/api/primates', primateC.create);
 //DELETE PRIMATE PROFILE
-app.delete('/api/primate/:id', pC.deleteProfile)
+app.delete('/api/primate/:id', primateC.deleteProfile)
 //UPDATE PRIMATE PROFILE
-app.put('/api/primate/:id', pC.updateProfile)
+app.put('/api/primate/:id', primateC.updateProfile)
 //GET PRODUCTS
-app.get('/api/products', pC.getAllProducts)
+app.get('/api/products', productC.getAllProducts)
+//CREATE PRODUCT
+app.post('/api/products', productC.createProduct)
+//UPDATE PRODUCT
+app.put('/api/products/:id', productC.updateProduct)
 
 
 //LOGOUT
@@ -214,13 +219,6 @@ app.post('/send', (req, res, next) => {
             res.send(charge)
         })
         .catch(err => console.log('Err in create charge', err))
-        // .then(() =>{
-        //     //CLEAR CART/TOTAL
-        //     req.session.cart = [];
-        //     req.session.total = 0;
-        //     res.send(req.session)
-        // })
-        // .catch(err => console.log('Err in charges', err))
     } catch (err) {
         res.status(500).end()
     }

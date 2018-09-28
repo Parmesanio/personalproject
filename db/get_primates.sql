@@ -1,1 +1,1 @@
-select * from primates;
+select * from primates ORDER BY name ASC;

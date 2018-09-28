@@ -5,12 +5,6 @@ module.exports = {
             res.send(response)
         })
     },
-    getAllProducts: (req, res) => {
-        const db = req.app.get('db');
-        db.get_products().then(response => {
-            res.send(response)
-        })
-    },
     getProfile: (req, res) => {
         const db = req.app.get('db');
         let { id } = req.params;
@@ -20,7 +14,6 @@ module.exports = {
     },
     create: (req, res) => {
         const db = req.app.get('db');
-        console.log(req.body);
         let { name, species, dob, gender, bio, photo_urls, id } = req.body;
 
         db.create_primate([name, species, dob, gender, bio, `{${photo_urls}}`, id])

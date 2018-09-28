@@ -4,6 +4,7 @@ import request from 'superagent';
 import { connect } from 'react-redux';
 import { createPrimateProfile, editPrimateProfile } from '../../redux/reducer';
 import { withRouter } from 'react-router-dom';
+import './forms.css';
 const CLOUDINARY_UPLOAD_PRESET = 'talkinmonkeysproject',
       CLOUDINARY_UPLOAD_URL    = 'https://api.cloudinary.com/v1_1/parmesanio/upload';
 class Create extends Component {
@@ -20,7 +21,6 @@ class Create extends Component {
             uploadedFiles: []
          }
          this.onSubmit = this.onSubmit.bind(this);
-        //  this.onImageDrop = this.onImageDrop.bind(this);
     }
     componentDidMount() {
         let currentProfile = {};
@@ -34,36 +34,6 @@ class Create extends Component {
             gender: currentProfile.gender,
             bio: currentProfile.bio,
             photo_urls: currentProfile.photo_urls
-        })
-    }
-    handleName(event) {
-        this.setState({
-            name: event.target.value
-        })
-    }
-    handleSpecies(event) {
-        this.setState({
-            species: event.target.value
-        })
-    }
-    handleDob(event) {
-        this.setState({
-            dob: event.target.value
-        })
-    }
-    handleGender(event) {
-        this.setState({
-            gender: event.target.value
-        })
-    }
-    handleBio(event) {
-        this.setState({
-            bio: event.target.value
-        })
-    }
-    handlePhotos(event) {
-        this.setState({
-            photo_urls: event.target.value
         })
     }
     onImageDrop(files) {
@@ -98,12 +68,9 @@ class Create extends Component {
           }
         });
       }
-    // handleFavorites(event) {
-    //     console.log(event.target.value);
-    //     this.setState({
-    //         favorites: event.target.value
-    //     })
-    // }
+      handleChange(e) {
+        this.setState({[e.target.name]: e.target.value});
+    }
     onSubmit(event) {
         event.preventDefault();
     }
@@ -117,26 +84,26 @@ class Create extends Component {
             {this.state.uploadedFileCloudinaryUrl === '' ? null :
             <div>
             <p>{file.name}</p>
-            {/* <img src={this.state.uploadedFileCloudinaryUrl} /> */}
             </div>}
         </div>
         })
         
         return ( 
-            admin.name ? this.props.match.params.id ? 
+            <div className="forms">
+            {admin.name ? this.props.match.params.id ? 
             <div>
                 <h1>Edit Primate Profile</h1>
                 <form onSubmit={(event) => this.onSubmit(event)}>
                     <label>Name:</label>
-                    <input onChange={(event) => this.handleName(event)} type="text" value={name} />
+                    <input name="name" onChange={(event) => this.handleChange(event)} type="text" value={name} />
                     <label>Species:</label>
-                    <input onChange={(event) => this.handleSpecies(event)} type="text" value={species} />
+                    <input name="species" onChange={(event) => this.handleChange(event)} type="text" value={species} />
                     <label>Date of birth:</label>
-                    <input onChange={(event) => this.handleDob(event)} type="text" value={dob || ''} />
+                    <input name="dob" onChange={(event) => this.handleChange(event)} type="text" value={dob || ''} />
                     <label>Gender:</label>
-                    <input onChange={(event) => this.handleGender(event)} type="text" value={gender || ''} />
+                    <input name="gender" onChange={(event) => this.handleChange(event)} type="text" value={gender || ''} />
                     <label>Bio:</label>
-                    <textarea onChange={(event) => this.handleBio(event)} type="text" value={bio || ''}></textarea>
+                    <textarea name="bio" onChange={(event) => this.handleChange(event)} type="text" value={bio || ''}></textarea>
                     <label>Photos:</label>
                     <Dropzone
                         multiple={true}
@@ -145,7 +112,7 @@ class Create extends Component {
                         <p>Drop an image or click to select a file to upload.</p>
                     </Dropzone>
                     {mappedCloudPhotos}
-                    <textarea onChange={(event) => this.handlePhotos(event)} type="text" value={photo_urls || ''} />
+                    <textarea name="photo_urls" onChange={(event) => this.handleChange(event)} type="text" value={photo_urls || ''} />
                     <button onClick={() => editPrimateProfile(id, name, species, dob, gender, bio, photo_urls, admin.id)}>Submit</button>
                 </form>
             </div>
@@ -154,22 +121,31 @@ class Create extends Component {
                 <h1>Create Primate Profile</h1>
                 <form onSubmit={(event) => this.onSubmit(event)}>
                     <label>Name:</label>
-                    <input onChange={(event) => this.handleName(event)} type="text" placeholder="Name..." />
+                    <input name="name" onChange={(event) => this.handleChange(event)} type="text" placeholder="Name..." />
                     <label>Species:</label>
-                    <input onChange={(event) => this.handleSpecies(event)} type="text" placeholder="Species..." />
+                    <input name="species" onChange={(event) => this.handleChange(event)} type="text" placeholder="Species..." />
                     <label>Date of birth:</label>
-                    <input onChange={(event) => this.handleDob(event)} type="text" placeholder="Date of birth..." />
+                    <input name="dob" onChange={(event) => this.handleChange(event)} type="text" placeholder="Date of birth..." />
                     <label>Gender:</label>
-                    <input onChange={(event) => this.handleGender(event)} type="text" placeholder="Gender..." />
+                    <input name="gender" onChange={(event) => this.handleChange(event)} type="text" placeholder="Gender..." />
                     <label>Bio:</label>
-                    <textarea onChange={(event) => this.handleBio(event)} type="text" placeholder="Bio..."></textarea>
+                    <textarea name="bio" onChange={(event) => this.handleChange(event)} type="text" placeholder="Bio..."></textarea>
                     <label>Photos:</label>
-                    <input onChange={(event) => this.handlePhotos(event)} type="text" placeholder="Separate image URLs with commas..." />
-                    <button onClick={() => createPrimateProfile(name, species, dob, gender, bio, photo_urls, admin.id)}>Submit</button>
+                    <Dropzone
+                        multiple={true}
+                        accept="image/*"
+                        onDrop={this.onImageDrop.bind(this)}>
+                        <p>Drop an image or click to select a file to upload.</p>
+                    </Dropzone>
+                    {mappedCloudPhotos}
+                    <label>Photo URLs Appear Below</label>
+                    <textarea name="photo_urls" onChange={(event) => this.handleChange(event)} type="text" value={photo_urls || ''} />
+                    <button onClick={() => createPrimateProfile(name, species, dob, gender, bio, photo_urls, admin.id)}>Create Profile</button>
                 </form>
             </div>
             :
-            <p>Log in to view this page</p>
+            <p>Log in to view this page</p>}
+            </div>
          );
     }
 }

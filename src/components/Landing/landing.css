@@ -1,0 +1,77 @@
+.landing {
+    background: url('../images//tmpView.jpg') no-repeat;
+    background-size: contain;
+    height: 60vh;
+    font-family: 'Lato', sans-serif;
+    padding: 20px;
+    margin-top: 60px;
+    position: relative;
+    overflow: hidden;
+}
+.title {
+    transform: translate(0%, 100%);
+}
+.overlay {
+    background: rgba(0, 0, 0, 0.2);
+    color: #fff;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+/* .landing:after, .about:after {
+    content: '';
+    background: #fff;
+    height: 50px;
+    position: absolute;
+    bottom: -5%;
+    left: 0;
+    right: 0;
+    transform: skewY(8deg);
+    z-index: 9998;
+} */
+.welcome:before, .donate:before, .donate:after, .about:before, footer:before{
+    background: var(--main-color);
+    content: 'Welcome';
+    color: #fff;
+    display: flex;
+    font-size: 100%;
+    font-weight: bold;
+    height: 50px;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    left: 0;
+    right: 0;
+    /* transform: skewY(3deg); */
+    z-index: 9998;
+}
+.welcome:before {
+    top: -5%;
+}
+.about:before {
+    background: var(--secondary-color);;
+    content: 'Meet The Family';
+    top: -5%;
+    /* transform: skewY(-3deg) */
+}
+.donate:before {
+    background:  var(--secondary-color);;
+    content: 'How You Can Help';
+    top: -5%;
+    /* transform: skewY(3deg); */
+}
+.donate:after {
+    content: 'Get Involved';
+    bottom: -5%;
+    /* transform: skewY(-3deg); */
+}
+.fb-page {
+    padding-top: 50px;
+}
+footer:before {
+    content: '';
+    top: -5%;
+    /* transform: skewY(0deg); */
+}

@@ -1,0 +1,12 @@
+.checkout {
+    min-height: 100vh;
+    padding: 100px 0;
+}
+.product {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+.product img {
+    width: 10%;
+}

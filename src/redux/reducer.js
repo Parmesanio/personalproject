@@ -16,6 +16,8 @@ const SET_PRIMATES      = 'SET_PRIMATES',
       DELETE_PROFILE    = 'DELETE_PROFILE',
       CREATE_PROFILE    = 'CREATE_PROFILE',
       EDIT_PROFILE      = 'EDIT_PROFILE',
+      CREATE_PRODUCT    = 'CREATE_PRODUCT',
+      EDIT_PRODUCT      = 'EDIT_PRODUCT',
       SET_CART          = 'SET_CART',
       ADD_TO_CART       = 'ADD_TO_CART',
       REMOVE_FROM_CART  = 'REMOVE_FROM_CART',
@@ -47,6 +49,14 @@ export default function primateReducer(state=initialState, action) {
         case `${EDIT_PROFILE}_PENDING`:
             return {...state, isLoading: true}
         case `${EDIT_PROFILE}_FULFILLED`:
+            return {...state, isLoading: false}
+        case `${CREATE_PRODUCT}_PENDING`:
+            return {...state, isLoading: true}
+        case `${CREATE_PRODUCT}_FULFILLED`:
+            return {...state, isLoading: false}
+        case `${EDIT_PRODUCT}_PENDING`:
+            return {...state, isLoading: true}
+        case `${EDIT_PRODUCT}_FULFILLED`:
             return {...state, isLoading: false}
         case `${ADD_TO_CART}_PENDING`:
             return {...state, isLoading: true}
@@ -111,6 +121,20 @@ export function editPrimateProfile(id, name, species, dob, gender, bio, photo_ur
     return {
         type: EDIT_PROFILE,
         payload: axios.put(`/api/primate/${id}`, {name, species, dob, gender, bio, photo_urls, admin_id}).then(() => window.location.pathname = '/meet-the-primates').catch(err => console.log('Err in createProfile', err.response))
+    }
+}
+export function createProduct(name, price, product_url, sizes, dimensions, description, in_stock, admin_id) {
+    return {
+        type: CREATE_PRODUCT,
+        payload: axios.post('/api/products', {name, price, product_url, sizes, dimensions, description, in_stock, admin_id}).then(res => window.location.pathname = '/products').catch(err => console.log('Err in create product', err))
+    }
+}
+export function editProduct(id, name, price, product_url, sizes, dimensions, description, in_stock) {
+    console.log(id, name, price, product_url, sizes, dimensions, description, in_stock);
+    
+    return {
+        type: EDIT_PRODUCT,
+        payload: axios.put(`/api/products/${id}`, {name, price, product_url, sizes, dimensions, description, in_stock}).then(res => window.location.pathname = '/products').catch(err => console.log('Err in edit product', err))
     }
 }
 export function setCart() {

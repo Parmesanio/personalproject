@@ -74,7 +74,7 @@ class Volunteer extends Component{
                         position={{lat: marker.lat, lng: marker.lng}} />
         })
     return ( 
-        <section>
+        <section className="volunteer">
             <div id="map">
                 <Map google={this.props.google}
                      onClick={this.onMapClicked} 

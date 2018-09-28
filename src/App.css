@@ -1,12 +1,31 @@
+:root {
+  /* #10: #86ac41, #324851
+     #92: #88a550, #282623
+     #97: #a5c05b, #232122    */
+  --main-color: #86ac41;
+  --secondary-color: #324851;
+  --danger-color: #ac6741;
+  /* --main-color: #88a550;
+  --secondary-color: #282623;
+  --main-color: #a5c05b;
+  --secondary-color: #232122; */
+}
 .App {
   text-align: center;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  overflow: hidden;
+  position: relative;
 }
 #map {
   position: relative;
   height: 50vh;
-  
+}
+.loadingSpinner {
+  background: sandybrown;
+  border-radius: 50%;
+  height: 100px;
+  width: 100px;
 }
 

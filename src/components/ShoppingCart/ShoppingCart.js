@@ -1,16 +1,22 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { removeFromCart, setCart } from '../../redux/reducer';
+import { Link, Redirect } from 'react-router-dom';
 import StripeCheckout from 'react-stripe-checkout';
-import { Redirect } from 'react-router-dom';
 import axios from 'axios';
+import './shoppingcart.css';
 
 class ShoppingCart extends Component {
     constructor() {
         super();
         this.state = {
-            orderComplete: false
+            orderComplete: false,
+            order: [],
+            qty: 0
         }
+    }
+    componentDidMount() {
+        window.scrollTo(0,0);
     }
     fromDollarToCent = amount => amount * 100;
     onToken = token => {
@@ -19,29 +25,50 @@ class ShoppingCart extends Component {
             amount: this.fromDollarToCent(this.props.sessionTotal)
         })
         .then(response => {
-            console.log(response);
+            console.log(response.data);
             this.props.setCart();
             this.setState({
-                orderComplete: true
+                orderComplete: true,
+                order: response.data
             })
         }).catch(err => err);
       }
     render() {
-        // if (this.state.orderComplete) {
-        //     return <Redirect to={`/OrderConfirm`}/>
-        // }
+        let { order } = this.state;
         let { sessionCart, removeFromCart, sessionTotal } = this.props;
         let mappedCart = sessionCart.map((product, index)=> {
             let { name, price, product_url } = product
-            return <div key={index}>
+            return <div key={index} className="product">
                     <img src={product_url} alt={name} />
-                    <h4>{name}</h4>
+                    <p>{name}</p>
                     <p>${parseFloat(price)}</p>
-                    <button onClick={() => removeFromCart(product.id)}>Remove From Cart</button>
+                    <button onClick={() => removeFromCart(product.id)}>X</button>
             </div>
         })
         return ( 
+            <div className="checkout">
+            {this.state.orderComplete ? <div>
+            <h1>Order Completed</h1>
+            <h3>Order Summary</h3>
+            <ul>
+                <li>{order.source.name}</li>
+                <li>{order.source.address_line1}</li>
+                <li>{order.source.address_city}</li>
+                <li>{order.source.address_zip}</li>
+                <li>{order.source.address_country}</li>
+                {order.source.address_line2 && <li>{order.source.address_line2}</li>}
+            </ul>
+            <p>{order.description}</p>
+            <p>${order.amount / 100}</p>
+            <p>A receipt has been sent to your email.</p>
+            <p>Thanks for shopping!</p>
+            <Link to='/'>Home</Link>
+      </div> :
             <div>
+            
+            <h3>Current Order</h3>
+            {mappedCart}
+            <h1>Total: ${sessionTotal.toFixed(2)}</h1>
             <StripeCheckout
                     name="The Takin' Monkeys Project, Inc."
                     amount={this.fromDollarToCent(sessionTotal)}
@@ -50,68 +77,14 @@ class ShoppingCart extends Component {
                     shippingAddress={true}
                     billingAddress={true}
                     />
-            <h1>Total: ${sessionTotal}</h1>
-            <h3>Current Order</h3>
-            {mappedCart}
+                
+        </div>}
         </div>
 
          );
     }
     
 }
-
-// const ShoppingCart = (props) => {
-//     let { sessionCart, removeFromCart, sessionTotal } = this.props;
-//     let mappedCart = sessionCart.map((product, index)=> {
-//         let { name, price, product_url } = product
-//         return <div key={index}>
-//                 <img src={product_url} alt={name} />
-//                 <h4>{name}</h4>
-//                 <p>${parseFloat(price)}</p>
-//                 <button onClick={() => removeFromCart(product.id)}>Remove From Cart</button>
-//         </div>
-//     })
-//     onToken = (token) => {
-//         console.log('TOKEN', JSON.stringify(token));
-        
-//         // axios.post('/save-stripe-token', JSON.stringify(token))
-//         // .then(response => {
-//         //     console.log('RESPONSE',response);
-            
-//         //     response.json().then(data => {
-//         //         console.log('DATA', data);
-                
-//         //         alert(`We are in business, ${data.email}`);
-//         //     }).catch(err => console.log('Err in stripe token', err))
-//         // })
-//         fetch('/save-stripe-token', {
-//           method: 'POST',
-//           body: JSON.stringify(token),
-//         }).then(response => {
-//             console.log(response);
-//             response.json().then(data => {
-//                 console.log('DATA', data.json());
-//                 alert(`We are in business`);
-//               }).catch(err => console.log('Err in data', err));;
-//         }).catch(err => err)
-//       }
-    
-//     return ( 
-//         <div>
-//             <StripeCheckout
-//                     token={this.onToken}
-//                     stripeKey="pk_test_LcmEKJ7CVohHZeNgbJANn1ZF"
-//                     // shippingAddress={true}
-//                     // billingAddress={true}
-//                     amount={sessionTotal}
-//                     />
-//             <h1>Total: ${sessionTotal}</h1>
-//             <h3>Current Order</h3>
-//             {mappedCart}
-//         </div>
-//      );
-// }
-
 const mapStateToProps = state => {
     let { sessionCart, sessionTotal } = state.primates;
     return {
