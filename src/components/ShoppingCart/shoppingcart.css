@@ -2,11 +2,32 @@
     min-height: 100vh;
     padding: 100px 0;
 }
+.checkout hr {
+    width: 90%;
+}
 .product {
+    border-bottom: 1px solid;
     display: flex;
-    justify-content: space-evenly;
+    justify-content: space-between;
     align-items: center;
+    width: 90%;
+    margin: 0 auto 1em auto;
+    padding-bottom: 1em;
 }
 .product img {
-    width: 10%;
+    width: 40%;
+}
+.product div {
+    display: flex;
+    justify-content: space-evenly;
+    flex-direction: column;
+    min-height: 115px;
+}
+.product .delete {
+    background: var(--danger-color);
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    cursor: pointer;
+    padding: 12px 20px;
 }

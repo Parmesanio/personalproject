@@ -1,4 +1,5 @@
-.about {
+@media only screen and (min-width: 0px) {
+.about, .more-info {
     min-height: 100vh;
     padding: 60px 0;
     position: relative;
@@ -35,12 +36,34 @@
     opacity: 1;
     bottom: 0;
 }
-.about .image {
-    background: url('../images/dr_deb_about.jpg') no-repeat;
-    background-size: cover;
-    background-position-x: center;
+.about .image-deb, .about .image-tom, .about .image-meet {
     border: 3px solid var(--main-color);
     border-radius: 50%;
     height: 200px;
     width: 200px;
+}
+.about .image-deb {
+    background: var(--secondary-color) url('../images/dr_deb_about.jpg') no-repeat;
+    background-size: cover;
+    background-position-x: center;
+}
+.about .image-tom {
+    background: var(--secondary-color) url('../images//tom.jpg') no-repeat;
+    background-size: cover;
+    background-position-x: center;
+}
+.about .image-meet {
+    background: var(--secondary-color) url('../images//meet.jpg') no-repeat;
+    background-size: cover;
+    background-position-x: center;
+}
+.more-info {
+    width: 90%;
+    margin: 1em auto;
+}
+.more-info p {
+    margin: 1em auto;
+    text-align: left;
+}
+
 }

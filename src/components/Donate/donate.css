@@ -1,5 +1,36 @@
 .donate {
-    height: 100vh;
+    min-height: 100vh;
     padding-top: 50px;
     position: relative;
+}
+.donate-items {
+    min-height: 100vh;
+    padding: 60px 0;
+}
+.item {
+    background: rgba(250, 249, 247, 1);
+    border: 1px solid rgba(229, 229, 229, 1);
+    border-radius: 5px;
+    width: 80%;
+    margin: 1em auto 3em auto;
+    padding: 10px;
+}
+.item img {
+    width: 100%;
+}
+.item p {
+    text-align: left;
+}
+.item h3, .donate-items h2, .donate-items h3, .donate-items form {
+    margin: 0.5em auto;
+}
+.donate-items a {
+    background: var(--main-color);;
+    border-radius: 5px;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    margin-top: 1em;
+    padding: 12px 15px;
+    text-decoration: none;
 }

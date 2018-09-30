@@ -25,7 +25,6 @@ class ShoppingCart extends Component {
             amount: this.fromDollarToCent(this.props.sessionTotal)
         })
         .then(response => {
-            console.log(response.data);
             this.props.setCart();
             this.setState({
                 orderComplete: true,
@@ -40,9 +39,11 @@ class ShoppingCart extends Component {
             let { name, price, product_url } = product
             return <div key={index} className="product">
                     <img src={product_url} alt={name} />
-                    <p>{name}</p>
-                    <p>${parseFloat(price)}</p>
-                    <button onClick={() => removeFromCart(product.id)}>X</button>
+                    <div>
+                        <p>{name}</p>
+                        <p>${parseFloat(price)}</p>
+                        <button className="delete" onClick={() => removeFromCart(product.id)}>Remove From Cart</button>
+                    </div>
             </div>
         })
         return ( 
@@ -66,11 +67,12 @@ class ShoppingCart extends Component {
       </div> :
             <div>
             
-            <h3>Current Order</h3>
+            <h3>Current Order ({sessionCart.length} items) </h3>
+            <hr />
             {mappedCart}
             <h1>Total: ${sessionTotal.toFixed(2)}</h1>
             <StripeCheckout
-                    name="The Takin' Monkeys Project, Inc."
+                    name="Talkin' Monkeys Project"
                     amount={this.fromDollarToCent(sessionTotal)}
                     token={this.onToken}
                     stripeKey={process.env.REACT_APP_STRIPE_PUBLISHABLE}
