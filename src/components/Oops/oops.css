@@ -2,3 +2,15 @@
     min-height: 100vh;
     padding: 60px 0;
 }
+#tylerVideo {
+    display: block;
+    position: static;
+    margin: 0 auto;
+    width: 90%;
+    transform: none;
+}
+@media only screen and (min-width: 768px) {
+    #tylerVideo {
+        width: 50%;
+    }
+}
