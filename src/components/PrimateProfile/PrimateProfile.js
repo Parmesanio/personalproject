@@ -32,7 +32,6 @@ class PrimateProfile extends Component {
     }
     render() { 
         let { profile, images, modal } = this.state;
-        console.log(modal);
         
         let mappedProfile = profile.map(primate => {
             let { name, species, dob, gender, bio, photo_urls } = primate;
@@ -57,6 +56,7 @@ class PrimateProfile extends Component {
         })
     return ( 
         <div className="primateProfile-container">
+        <button onClick={() => this.props.history.goBack()}>Go Back</button>
             {mappedProfile}
             <div className={`modal-container ${modal ? 'modal-container-show' : '' }`} onClick={() => this.handleModal()}>
                     <div id="modal" className={`modal ${modal ? 'modal-show' : ''}`} >

@@ -1,3 +1,6 @@
+.forms {
+    padding: 100px 0 60px 0;
+}
 .forms form input, textarea {
     border-radius: 5px;
     border: 1px solid;
@@ -7,4 +10,10 @@
 }
 .forms form > * {
     margin: 1em auto;
+}
+@media only screen and (min-width: 768px) {
+    .forms {
+        max-width: 700px;
+        margin: 0 auto;
+    }
 }

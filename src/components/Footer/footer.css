@@ -1,5 +1,6 @@
 footer {
     background:  var(--secondary-color);
+    margin-top: 1em;
     min-height: 20vh;
     /* position: absolute;
     bottom: 0;

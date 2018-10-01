@@ -31,3 +31,11 @@
     cursor: pointer;
     padding: 12px 20px;
 }
+@media only screen and (min-width: 768px) {
+    .product {
+        width: 50%;
+    }
+    .product img {
+        width: 35%;
+    }
+}

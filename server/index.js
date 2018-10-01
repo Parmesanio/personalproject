@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express           = require('express'),
       bodyParser        = require('body-parser'),
       massive           = require('massive'),
@@ -9,7 +10,6 @@ const express           = require('express'),
       nodemailer        = require('nodemailer'),
       config            = require('./controllers/config'),
       app               = express();
-      require('dotenv').config();
 
 
 //Middleware
@@ -171,15 +171,15 @@ app.post('/send', (req, res, next) => {
     var name = req.body.name
     var email = req.body.email
     var message = req.body.message
-    var content = `name: ${name} \n email: ${email} \n message: ${message} `
-    console.log('CONTENT',content);
+    var content = `<h1>name: ${name}</h1> \n email: ${email} \n message: ${message} `
     
   
     var mail = {
       from: name,
       to: config.USER,  //Change to email address that you want to receive messages on
       subject: "New Message from The Talkin' Monkeys Project, Inc. Website",
-      text: content
+      text: content,
+      html: `${content}`
     }
   
     transporter.sendMail(mail, (err, data) => {

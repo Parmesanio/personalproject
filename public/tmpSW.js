@@ -1,7 +1,5 @@
 //Cache static assets to serve offline
 const staticAssets = [
-    '/',
-    './',
     './index.html',
     './main.js',
     './fallback.json'

@@ -40,12 +40,23 @@ class Header extends Component {
                 <h3><Link to="/">The Talkin' Monkeys Project</Link></h3>
                 </div>
                 <nav className={isToggled ? 'show' : ''}>
-                {admin.name && <div className="admin">
-                        <img src={admin.picture} alt={admin.name} />
-                        <Link to='/add-primate'>Add Primate</Link>
-                        <Link to='/add-product'>Add Product</Link>
-                        <Link to='/' onClick={this.logOut}>Logout</Link>
-                        </div> }
+                {admin.name ? window.innerWidth > 992 ? <ul className="admin">
+                        <li>Admin <span className="caret"></span></li>
+                        <li className="dropdown-content"><img src={admin.picture} alt={admin.name}  /></li>
+                        <li className="dropdown-content"><Link to='/add-primate'>Add Primate</Link></li>
+                        <li className="dropdown-content"><Link to='/add-product'>Add Product</Link></li>
+                        <li className="dropdown-content"><Link to='/' onClick={this.logOut}>Logout</Link></li>
+                        </ul>
+                        :
+                        <ul className="admin">
+                        <li className="dropdown-content"><img src={admin.picture} alt={admin.name}  /></li>
+                        <li className="dropdown-content"><Link to='/add-primate'>Add Primate</Link></li>
+                        <li className="dropdown-content"><Link to='/add-product'>Add Product</Link></li>
+                        <li className="dropdown-content"><Link to='/' onClick={this.logOut}>Logout</Link></li>
+                        </ul>
+                        : 
+                        null
+                     }
                     <Link to='/'>Home</Link>
                     <Link to='/meet-the-primates'>Meet The Primates</Link>
                     <Link to='/about'>Who We Are</Link>

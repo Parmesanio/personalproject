@@ -1,6 +1,6 @@
 .donate {
-    min-height: 100vh;
-    padding-top: 50px;
+    margin-bottom: 2em;
+    padding: 70px 0;
     position: relative;
 }
 .donate-items {
@@ -11,7 +11,7 @@
     background: rgba(250, 249, 247, 1);
     border: 1px solid rgba(229, 229, 229, 1);
     border-radius: 5px;
-    width: 80%;
+    width: 90%;
     margin: 1em auto 3em auto;
     padding: 10px;
 }
@@ -33,4 +33,14 @@
     margin-top: 1em;
     padding: 12px 15px;
     text-decoration: none;
+}
+@media only screen and (min-width: 768px) {
+    .donate-items {
+        max-width: 60%;
+        margin: 0 auto;
+    }
+    .items {
+        width: 50%;
+        margin: 0 auto;
+    }
 }

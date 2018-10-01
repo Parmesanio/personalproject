@@ -67,7 +67,8 @@ class Create extends Component {
     
           if (response.body.secure_url !== '') {
             this.setState({
-              uploadedFileCloudinaryUrl: response.body.secure_url
+              uploadedFileCloudinaryUrl: response.body.secure_url,
+              product_url: response.body.secure_url
             });
           }
         });
@@ -84,7 +85,6 @@ class Create extends Component {
         let { id } = this.props.match.params;
 
         let mappedCloudPhotos = uploadedFiles.map(file => {
-            {product_url += ',' + this.state.uploadedFileCloudinaryUrl}
             return <div>
             {this.state.uploadedFileCloudinaryUrl === '' ? null :
             <div>
@@ -117,8 +117,9 @@ class Create extends Component {
                         <p>Drop an image or click to select a file to upload.</p>
                     </Dropzone>
                     {mappedCloudPhotos}
+                    <label>Photo URLs Appear Below</label>
                     <textarea name="product_url" onChange={(event) => this.handleChange(event)} type="text" value={product_url || ''} />
-                    <button onClick={() => editProduct(id, name, price, product_url, sizes, dimensions, description, in_stock)}>Submit</button>
+                    <button onClick={() => editProduct(id, name, price, product_url, sizes, dimensions, description, in_stock)}>Edit Product</button>
                 </form>
             </div>
             :
@@ -126,15 +127,15 @@ class Create extends Component {
             <h1>Create Product</h1>
             <form onSubmit={(event) => this.onSubmit(event)}>
                 <label>Name:</label>
-                <input name="name" onChange={(event) => this.handleChange(event)} type="text"  />
+                <input name="name" onChange={(event) => this.handleChange(event)} type="text" placeholder="Name..."  />
                 <label>Price:</label>
-                <input name="price" onChange={(event) => this.handleChange(event)} type="text" />
+                <input name="price" onChange={(event) => this.handleChange(event)} type="text" placeholder="Price..." />
                 <label>Sizes:</label>
-                <input name="sizes" onChange={(event) => this.handleChange(event)} type="text" />
+                <input name="sizes" onChange={(event) => this.handleChange(event)} type="text" placeholder="Sizes..." />
                 <label>Dimensions:</label>
-                <input name="dimensions" onChange={(event) => this.handleChange(event)} type="text" />
+                <input name="dimensions" onChange={(event) => this.handleChange(event)} type="text" placeholder="Dimensions..." />
                 <label>Description:</label>
-                <textarea name="description" onChange={(event) => this.handleChange(event)} type="text" />
+                <textarea name="description" onChange={(event) => this.handleChange(event)} type="text" placeholder="Description..." />
                 <label>Product Photo:</label>
                 <Dropzone
                     multiple={false}
@@ -143,8 +144,9 @@ class Create extends Component {
                     <p>Drop an image or click to select a file to upload.</p>
                 </Dropzone>
                 {mappedCloudPhotos}
+                <label>Photo URLs Appear Below</label>
                 <textarea name="product_url" onChange={(event) => this.handleChange(event)} type="text" value={product_url || ''} />
-                <button onClick={() => createProduct(name, price, product_url, sizes, dimensions, description, in_stock = true, admin.id)}>Submit</button>
+                <button onClick={() => createProduct(name, price, product_url, sizes, dimensions, description, in_stock = true, admin.id)}>Create Product</button>
             </form>
         </div>
             :

@@ -3,6 +3,8 @@ window.addEventListener('load', async () => {
         try {
             navigator.serviceWorker.register('tmpSW.js');
             console.log('tmpSW Registered');
+            console.log('looool');
+            
             
         } catch (error) {
             console.log('Err in tmpSW', error);

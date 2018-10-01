@@ -9,25 +9,36 @@ class About extends Component {
             <section className="about">
             <div>
                 <h3>Dr. Deborah Misotti</h3>
+                <br />
                     <div onMouseEnter={this.props.handleHover} onMouseLeave={this.props.handleHover}>
                         <div className="image-deb"></div>
+                        <br />
                         <p>Short Summary</p>
+                        <br />
                     </div>
             </div>
             <div>
                 <h3>Tom Misotti</h3>
+                <br />
                     <div onMouseEnter={this.props.handleHover} onMouseLeave={this.props.handleHover}>
                         <div className="image-tom"></div>
+                        <br />
                         <p>Short Summary</p>
+                        <br />
                         <Link className={`${this.props.isHovered && 'aboutShow'} hide`} to='/about'>Meet Deb & Tom Misotti</Link>
+                        <br />
                     </div>
             </div>
             <div>
-                <h3></h3>
+                <h3>The Primates</h3>
+                <br />
                     <div onMouseEnter={this.props.handleHover} onMouseLeave={this.props.handleHover}>
                         <div className="image-meet"></div>
+                        <br />
                         <p>Short Summary</p>
+                        <br />
                         <Link className={`${this.props.isHovered && 'aboutShow'} hide`} to='/meet-the-primates'>Meet The Primates</Link>
+                        <br />
                     </div>
             </div>
             </section>

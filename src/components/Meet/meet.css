@@ -1,6 +1,7 @@
 .meet {
     min-height: 100vh;
     padding: 60px 0;
+    margin: 2em auto;
 }
 .primate {
     background: rgba(250, 249, 247, 1);
@@ -38,4 +39,87 @@
 }
 .meetButton {
     margin: 0.5em auto;
+}
+@media only screen and (min-width: 768px) {
+    #loader {
+        display: block;
+        position: absolute;
+        top: 30%;
+        right: 46%;
+        z-index: 9999;
+    }
+    .meet {
+        min-height: 850px;
+        max-width: 768px;
+        margin: 0 auto;
+        padding: 40px 0;
+    }
+    .primate {
+        display: inline-block;
+        overflow: hidden;
+        margin:  1em auto;
+        padding: 0;
+        width: 115px;
+        height: 115px;
+        position: relative;
+    }
+    .meet .meet-greeting {
+        margin: 1em 0;
+    }
+    .primate .hidden {
+        background: rgba(134, 172, 65, 0.6);
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-orientation: sideways-right;
+        font-size: 1vw;
+        opacity: 0;
+        position: absolute;
+        bottom: 100%;
+        top: 0;
+        right: 0;
+        left: 0;
+        transform: rotate(90deg) ;
+        transition: all 0.35s;
+    }
+    .primate .hidden h1 {
+        transform: rotate(-45deg);
+    }
+    .primate .showDesc {
+        bottom: 0;
+        opacity: 1;
+        z-index: 9999;
+    }
+    .primate .meetButton, .primate h2 {
+        display: none;
+    }
+    .primate img {
+        height: inherit;
+        transform: rotate(45deg) scale(2);
+    }
+    .diamondWrapper{
+        width:70%;
+        margin-left: -8%;
+        transform-origin:65% 0%;
+        transform: rotate(-45deg);
+    }
+    .diamondWrapper .primate {
+        display: inline-block;
+    }
+    .diamondWrapper .primate {
+        float:left;
+        margin:0.5%;
+        background:teal;
+    }
+    .diamondWrapper .primate:nth-child(3), .diamondWrapper .primate:nth-child(11){
+        clear:right;
+    }
+    .diamondWrapper .primate:nth-child(4), .diamondWrapper .primate:nth-child(12){
+        clear:left;
+    }
+    .diamondWrapper .primate:nth-child(8){
+        clear:left;
+    }
+    
 }

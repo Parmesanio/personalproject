@@ -3,6 +3,7 @@ import {Map, InfoWindow, Marker, GoogleApiWrapper} from 'google-maps-react';
 import { connect } from 'react-redux';
 import { setWeather } from '../../redux/reducer';
 import axios from 'axios';
+import './volunteer.css';
 
 class Volunteer extends Component{
     constructor(props) {
@@ -99,11 +100,13 @@ class Volunteer extends Component{
                     </InfoWindow>
                 </Map>
             </div>
+            <br />
             <div>
+                <h2>Contact Us</h2>
                 <form id="contact-form">
                     <input id="name" type="text" placeholder='Name...' />
                     <input id="email" type="email" placeholder='Email...' />
-                    <textarea id="message"></textarea>
+                    <textarea id="message" placeholder="Message..."></textarea>
                     <button onClick={(e) => this.handleSubmit(e)}>Contact</button>
                 </form>
             </div>

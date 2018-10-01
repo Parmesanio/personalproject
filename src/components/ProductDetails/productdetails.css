@@ -13,6 +13,11 @@
     cursor: pointer;
     padding: 12px 20px;
 }
+.productDetails ul {
+    text-align: left;
+    width: 90%;
+    margin: 1em auto;
+}
 .productDetails .editButton {
     background: var(--secondary-color);
 }

@@ -52,9 +52,6 @@
         text-align: left;
         transition: 0.35s all;
     }
-    nav a:hover {
-        background: var(--main-color);
-    }
     .paypal {
         background: var(--main-color);
         color: #fff;
@@ -77,23 +74,86 @@
         cursor: pointer;
         transition: all 0.35s;
     }
-    .admin a:hover {
+    .admin a:hover, nav a:hover {
         background: var(--main-color);
     }
-    /* .admin button:after {
-        background: red;
-        color: red;
-        display: block;
-        content: "";
-        margin-top: 5px;
-        width: 0;
-        height: 5px;
-        transition: all 0.35s;
-    } */
-    /* .admin button:hover:after, nav a:hover:after {
-        width: 100%;
-    } */
     .admin img {
         border-radius: 50%;
     }
+  }
+  @media only screen and (min-width: 992px) {
+      header {
+
+      }
+      nav {
+          align-items: center;
+          height: 60px;
+          flex-direction: row;
+          font-size: 1vw;
+          overflow: initial;
+          position: relative;
+          right: 5%;
+          width: 50%;
+      }
+      .brand {
+          position: relative;
+          left: 5%;
+      }
+      .caret {
+        width: 0; 
+        height: 0; 
+        border-left: 5px solid transparent;
+        border-right: 5px solid transparent;
+        border-top: 5px solid #fff;
+      }
+      nav > * {
+          display: inline-block;
+      }
+      nav a {
+          padding: 0.5em;
+          text-align: center;
+          overflow: hidden;
+          width: initial;
+      }
+      .admin {
+        position: relative;
+        transform: translate(15%, 46.7%);
+    }
+    .admin li:after, nav a:after {
+        background: var(--main-color);
+        display: block;
+        content: "";
+        width: 0;
+        height: 5px;
+        transition: all 0.35s;
+    }
+    .admin li a:hover:after, nav a:hover:after {
+        width: 100%;
+    }
+    .admin a:hover, nav a:hover {
+        background: none;
+    }
+    .admin li {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    .dropdown-content {
+        opacity: 0;
+        transform: translateY(20px);
+        background-color: var(--secondary-color);
+        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+        padding: 12px 16px;
+        z-index: 1;
+        transition: all 0.35s;
+    }
+    
+    .admin:hover .dropdown-content {
+        opacity: 1;
+        transform: translateY(0px);
+    }
+      .menu {
+          display: none;
+      }
   }

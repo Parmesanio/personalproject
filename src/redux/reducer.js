@@ -95,8 +95,8 @@ export function setProducts() {
 export function setWeather() {
     return {
         type: SET_WEATHER,
-        payload: axios.get('http://api.openweathermap.org/data/2.5/forecast?id=4151366&APPID=42f85a624e44cf0c1e9d9d4f641fbede&units=imperial')
-            .then(res => console.log(res.data)).catch(err => console.log('Err in SET_WEATHER', err))
+        payload: axios.get('http://api.openweathermap.org/data/2.5/weather?id=4151366&APPID=42f85a624e44cf0c1e9d9d4f641fbede&units=imperial')
+            .then(res => res.data).catch(err => console.log('Err in SET_WEATHER', err))
     }
 }
 export function logIn() {
@@ -108,7 +108,7 @@ export function logIn() {
 export function deleteProfile(id) {
     return {
         type: DELETE_PROFILE,
-        payload: axios.delete(`/api/primate/${id}`).then(() => window.location.pathname = '/').catch(err => console.log('Err in delete', err))
+        payload: axios.delete(`/api/primate/${id}`).then(() => window.location.pathname = '/meet-the-primates').catch(err => console.log('Err in delete', err))
     }
 }
 export function createPrimateProfile(name, species, dob, gender, bio, photo_urls, id) {

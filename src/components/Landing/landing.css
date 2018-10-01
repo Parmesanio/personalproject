@@ -9,8 +9,15 @@
     position: relative;
     overflow: hidden;
 }
+video {
+    display: none;
+}
 .title {
-    transform: translate(0%, 100%);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-200%);
+    width: 80%;
 }
 .overlay {
     background: rgba(0, 0, 0, 0.2);
@@ -22,7 +29,10 @@
     bottom: 0;
 }
 .overlay p {
-    transform: translate(0%, 150%);
+    position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%,-60%);
 }
 .welcome:before, .donate:before, .donate:after, .about:before, footer:before{
     background: var(--main-color);
@@ -62,4 +72,73 @@
 footer:before {
     content: '';
     top: -5%;
+}
+.weather {
+    background:var(--secondary-color);
+    border-radius: 2px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 70%;
+    margin: 0 auto;
+}
+@media only screen and (min-width: 767px) and (min-height: 900px ) {
+    .landing {
+        background: transparent;
+        min-height: 50vh;
+    }
+    video {
+        display: inherit;
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 100%;
+        transform: scale(2);
+        z-index: -1;
+    }
+    .title {
+        font-size: 200%;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%,-150%)
+    }
+    .overlay p {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        width: 30%;
+    }
+}
+@media only screen and (min-width: 767px) {
+    .landing {
+        background: transparent;
+        min-height: 100vh;
+    }
+    video {
+        display: inherit;
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 100%;
+        transform: scale(2);
+        z-index: -1;
+    }
+    .title {
+        font-size: 200%;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%,-150%)
+    }
+    .overlay p {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        width: 30%;
+    }
 }

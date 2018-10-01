@@ -16,7 +16,7 @@ class Create extends Component {
             dob: '',
             gender: '',
             bio: '',
-            photo_urls: '',
+            photo_urls: ["Hello"],
             uploadedFileCloudinaryUrl: '',
             uploadedFiles: []
          }
@@ -45,28 +45,29 @@ class Create extends Component {
     
         this.handleImageUpload(files);
       }
-      handleImageUpload(file) {
-          console.log('handleImageUpload', file);
-          
-        let upload = request.post(CLOUDINARY_UPLOAD_URL)
-                            .field('upload_preset', CLOUDINARY_UPLOAD_PRESET)
-                            .field('file', file);
-                            console.log(upload);
-                            
-    
-        upload.end((err, response) => {
-            console.log(response);
-            
-          if (err) {
-            console.error(err);
-          }
-    
-          if (response.body.secure_url !== '') {
+      handleImageUpload(files) {
+          console.log('handleImageUpload', files);
+            let upload = request.post(CLOUDINARY_UPLOAD_URL)
+            .field('upload_preset', CLOUDINARY_UPLOAD_PRESET)
+            .field('file', files);
+            console.log(upload);
+                        
+
+            upload.end((err, response) => {
+            if (err) {
+                console.error(err);
+            }
+
+            if (response.body.secure_url !== '' || response.body.secure_url !== undefined) {
+            let photo_urls = response.body.secure_url,
+            uploadedFileCloudinaryUrl = response.body.secure_url;
+
             this.setState({
-              uploadedFileCloudinaryUrl: response.body.secure_url
+            ...this.state, photo_urls, uploadedFileCloudinaryUrl
             });
-          }
-        });
+            }
+            });
+
       }
       handleChange(e) {
         this.setState({[e.target.name]: e.target.value});
@@ -78,8 +79,8 @@ class Create extends Component {
         let { name, species, dob, gender, bio, photo_urls, uploadedFiles } = this.state
         let { admin, createPrimateProfile, editPrimateProfile, primateList } = this.props;
         let { id } = this.props.match.params;
+        
         let mappedCloudPhotos = uploadedFiles.map(file => {
-            {photo_urls += ',' + this.state.uploadedFileCloudinaryUrl}
             return <div>
             {this.state.uploadedFileCloudinaryUrl === '' ? null :
             <div>
@@ -112,8 +113,9 @@ class Create extends Component {
                         <p>Drop an image or click to select a file to upload.</p>
                     </Dropzone>
                     {mappedCloudPhotos}
+                    <label>Photo URLs Appear Below</label>
                     <textarea name="photo_urls" onChange={(event) => this.handleChange(event)} type="text" value={photo_urls || ''} />
-                    <button onClick={() => editPrimateProfile(id, name, species, dob, gender, bio, photo_urls, admin.id)}>Submit</button>
+                    <button onClick={() => editPrimateProfile(id, name, species, dob, gender, bio, photo_urls, admin.id)}>Edit Profile</button>
                 </form>
             </div>
             :
@@ -139,7 +141,7 @@ class Create extends Component {
                     </Dropzone>
                     {mappedCloudPhotos}
                     <label>Photo URLs Appear Below</label>
-                    <textarea name="photo_urls" onChange={(event) => this.handleChange(event)} type="text" value={photo_urls || ''} />
+                    <textarea name="photo_urls" onChange={(event) => this.handleChange(event)} type="text" value={photo_urls !== 'undefined' ? photo_urls : ''} />
                     <button onClick={() => createPrimateProfile(name, species, dob, gender, bio, photo_urls, admin.id)}>Create Profile</button>
                 </form>
             </div>

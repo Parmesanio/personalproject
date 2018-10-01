@@ -7,6 +7,7 @@ import playhouse from '../images/playhouse.jpg';
 import feeding from '../images/feeding.jpg';
 import helpingHands from '../images/helping-hands.jpg';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 import './donate.css'
 
 class DonateItems extends Component {
@@ -26,7 +27,7 @@ class DonateItems extends Component {
     }
     render() { 
         let { items } = this.state;
-
+        console.log(this.props);
         let mappedItems = items.map(item => {
             let { id, itemName, itemUrl, itemDesc } = item;
             console.log(itemUrl);
@@ -39,7 +40,9 @@ class DonateItems extends Component {
         })
         return ( 
             <div className="donate-items">
-                <h2>As a nonprofit sanctuary, financial & in-kind contributions to Talkin’ Monkeys are always welcomed with gratitude.</h2>
+                <h2>
+                    Debbie and Tom Misotti rely on donations to help provide the 15 monkeys and apes that live here with the food and support they need.
+                </h2>
                 <form action="https://www.paypal.com/cgi-bin/webscr" method="post">
                     <div align="center">
                         <input name="cmd" value="_s-xclick" type="hidden" />
@@ -50,11 +53,21 @@ class DonateItems extends Component {
                     </div>
                 </form>
                 <h3>Here are a few things that will help:</h3>
+                <div className="items">
                 {mappedItems}
+                </div>
                 <Link to='/volunteer'>Get Involved!</Link>
             </div>
          );
     }
 }
+const mapStateToProps = state => {
+    let { primateList } = state.primates;
+
+    return {
+        primateList
+    }
+}
  
-export default DonateItems;
+ 
+export default connect(mapStateToProps, {})(DonateItems);

@@ -71,6 +71,7 @@ class ShoppingCart extends Component {
             <hr />
             {mappedCart}
             <h1>Total: ${sessionTotal.toFixed(2)}</h1>
+            {sessionTotal.toFixed(2) !== "0.00" &&
             <StripeCheckout
                     name="Talkin' Monkeys Project"
                     amount={this.fromDollarToCent(sessionTotal)}
@@ -79,6 +80,7 @@ class ShoppingCart extends Component {
                     shippingAddress={true}
                     billingAddress={true}
                     />
+            }
                 
         </div>}
         </div>
