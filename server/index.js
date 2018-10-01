@@ -9,6 +9,7 @@ const express           = require('express'),
       stripe            = require("stripe")(process.env.STRIPE_SECRET_KEY),
       nodemailer        = require('nodemailer'),
       config            = require('./controllers/config'),
+      isLoggedIn        = false,
       app               = express();
 
 
@@ -95,7 +96,8 @@ app.get(`/callback`, (req, res) => {
                     });
                 }
             } else {
-                res.redirect('/login');  
+                isLoggedIn = false;
+                res.redirect('/admin/login');  
             }
             }).catch(error => {
                 console.log('error in db.get_user_by_auth0_id', error);
@@ -120,9 +122,7 @@ app.get('/api/user/cart', (req, res) => {
         req.session.cart = [];
         req.session.total = 0;
         res.json(req.session);
-    }else if (req.session.cart !== [] && req.session.total !== 0) {
-        res.json(req.session);
-    } else {
+    }else {
         res.json(req.session);
     }
 })
