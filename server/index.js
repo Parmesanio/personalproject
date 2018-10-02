@@ -171,7 +171,14 @@ app.post('/send', (req, res, next) => {
     var name = req.body.name
     var email = req.body.email
     var message = req.body.message
-    var content = `<h1>name: ${name}</h1> \n email: ${email} \n message: ${message} `
+    var content = `
+        <header style="background: #86ac41; height: 50px;"></header>
+        <div style="min-height: 300px; position: absolute; top: 50px; left: 0; right: 0; bottom: 0; background: #324851; color: #fff; padding: 10px;">
+            <h1>Name: ${name}</h1>
+             \n <p style="color: #fff;">Email: \n ${email}</p>
+             \n <p>Message: \n ${message}</p>
+        </div>
+    `
     
   
     var mail = {
@@ -227,4 +234,8 @@ app.post('/send', (req, res, next) => {
 
 
 const PORT = process.env.PORT;
+const path = require('path');
+app.get('*', (req, res)=>{
+res.sendFile(path.join(__dirname, '../build/index.html'))
+})
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`))
