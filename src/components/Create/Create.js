@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Dropzone from 'react-dropzone';
 import request from 'superagent';
 import { connect } from 'react-redux';
-import { createPrimateProfile, editPrimateProfile } from '../../redux/reducer';
+import { createPrimateProfile, editPrimateProfile } from '../../redux/primateReducer';
 import { withRouter } from 'react-router-dom';
 import './forms.css';
 const CLOUDINARY_UPLOAD_PRESET = 'talkinmonkeysproject',
@@ -16,7 +16,7 @@ class Create extends Component {
             dob: '',
             gender: '',
             bio: '',
-            photo_urls: ["Hello"],
+            photo_urls: [],
             uploadedFileCloudinaryUrl: '',
             uploadedFiles: []
          }
@@ -24,9 +24,9 @@ class Create extends Component {
     }
     componentDidMount() {
         let currentProfile = {};
-        this.props.match.params.id ?
-        currentProfile = this.props.primateList.find(item => item.id == this.props.match.params.id) :
-        null;
+        this.props.match.params.id && (
+        currentProfile = this.props.primateList.find(item => item.id == this.props.match.params.id) 
+        )
         this.setState({
             name: currentProfile.name,
             species: currentProfile.species,

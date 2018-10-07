@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { deleteProfile, setPrimates } from '../../redux/reducer';
+// import { connect } from 'react-redux';
+// import { deleteProfile, setPrimates } from '../../redux/primateReducer';
 import Primate from '../Primate/Primate';
 import { Link } from 'react-router-dom';
 import './meet.css';
@@ -15,7 +15,6 @@ class Meet extends Component {
          this.handleHoverExit = this.handleHoverExit.bind(this);
     }
     componentDidMount() {
-        this.props.setPrimates();
         window.scrollTo(0,0);
     }
     handleHoverEnter(i) {
@@ -38,8 +37,7 @@ class Meet extends Component {
           this.setState({ ...this.state, isHovered: false });
     }
     render() { 
-        let { primateList, admin, deleteProfile, isLoading } = this.props;
-        
+        let { primateList, admin, isLoading, deleteProfile } = this.props.props;
         const mappedList = primateList.map((primate, i) => {
             return (
                 <div className="primate" key={primate.id}>
@@ -64,17 +62,5 @@ class Meet extends Component {
          );
     }
 }
-const mapStateToProps = state => {
-    const { primateList, admin, isLoading } = state.primates;
-    return {
-        primateList,
-        admin,
-        isLoading
-    }
-}
-const mapDispatchToProps = {
-    deleteProfile,
-    setPrimates
-}
- 
-export default connect(mapStateToProps, mapDispatchToProps)(Meet);
+
+export default Meet;

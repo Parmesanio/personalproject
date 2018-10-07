@@ -1,23 +1,21 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { setProducts, addToCart } from '../../redux/reducer';
+import { setProducts, addToCart } from '../../redux/primateReducer';
 import './productdetails.css';
+import PropTypes from 'prop-types';
 
 
 class ProductDetails extends Component {
-    componentDidMount() {
-        this.props.setProducts();
-    }
     render() { 
-        let { productList, addToCart, admin } = this.props;
+        let { productList, addToCart, admin, match, history} = this.props.props;
+        let product = productList.find(item => item.id == match.params.id)
+        let { in_stock, name, price, product_url, dimensions, sizes, description } = product
     
-        let product = productList.find(item => item.id == this.props.match.params.id) || '';
-        let { in_stock, name, price, product_url, dimensions, sizes, description } = product;
         return ( 
             <div className="productDetails">
-            <button onClick={() => this.props.history.goBack()}>Go Back</button>
-                {product !== undefined && product !== '' ?  <div>
+            <button onClick={() => history.goBack()}>Go Back</button>
+                {product && product !== '' ?  <div>
                  <img src={product_url} alt={name} />
                  <h3>{name}</h3>
                  <p>${price}</p>
@@ -31,7 +29,7 @@ class ProductDetails extends Component {
                  <br />
                  <button onClick={() => addToCart(product)}>Add To Cart</button>
                  {" "}
-                 {admin && <button className="editButton" to={`/add-product/${this.props.match.params.id}`}>Edit Product</button>}
+                 {admin && <button className="editButton" to={`/add-product/${match.params.id}`}>Edit Product</button>}
                  </div> 
                  :
                  null
@@ -40,14 +38,19 @@ class ProductDetails extends Component {
          );
     }
 }
-
-const mapStateToProps = state => {
-    let { productList, admin } = state.primates;
-    
-    return {
-        productList,
-        admin
-    }
-}
  
-export default connect(mapStateToProps, {setProducts, addToCart})(ProductDetails);
+export default ProductDetails;
+
+ProductDetails.propTypes = {
+    productList: PropTypes.arrayOf(PropTypes.shape({
+        id: PropTypes.number.isRequired,
+        name: PropTypes.string.isRequired, 
+        price: PropTypes.string.isRequired, 
+        product_url: PropTypes.string.isRequired,
+        admin_id: PropTypes.number.isRequired,
+        description: PropTypes.string.isRequired,
+        dimensions: PropTypes.arrayOf(PropTypes.string.isRequired),
+        in_stock: PropTypes.bool.isRequired,
+        sizes: PropTypes.string.isRequired
+    }))
+}

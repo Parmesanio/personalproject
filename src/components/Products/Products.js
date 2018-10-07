@@ -1,17 +1,16 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { setProducts, addToCart } from '../../redux/reducer';
+import { setProducts, addToCart } from '../../redux/primateReducer';
+import ProductDetails from '../ProductDetails/ProductDetails';
 import './products.css';
 
 class Products extends Component {
     componentDidMount() {
-        this.props.setProducts();
         window.scrollTo(0,0);
     }
     render() { 
-        let { productList, addToCart } = this.props;
-        
+        let {  addToCart, productList } = this.props.props;
         let mappedProducts = productList.map(product => {
             let { description, in_stock, name, price, product_url } = product
             return <div key={product.id}>
@@ -32,11 +31,4 @@ class Products extends Component {
          );
     }
 }
-const mapStateToProps = state => {
-    let { productList } = state.primates
-    return {
-        productList
-    }
-}
- 
-export default connect(mapStateToProps, {setProducts, addToCart})(Products);
+export default Products;

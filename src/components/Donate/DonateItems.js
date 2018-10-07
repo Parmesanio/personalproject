@@ -7,7 +7,6 @@ import playhouse from '../images/playhouse.jpg';
 import feeding from '../images/feeding.jpg';
 import helpingHands from '../images/helping-hands.jpg';
 import { Link } from 'react-router-dom';
-import { connect } from 'react-redux';
 import './donate.css'
 
 class DonateItems extends Component {
@@ -27,10 +26,8 @@ class DonateItems extends Component {
     }
     render() { 
         let { items } = this.state;
-        console.log(this.props);
         let mappedItems = items.map(item => {
             let { id, itemName, itemUrl, itemDesc } = item;
-            console.log(itemUrl);
             
             return <div className="item" key={id}>
                         <img src={itemUrl} alt={itemName} />
@@ -61,13 +58,5 @@ class DonateItems extends Component {
          );
     }
 }
-const mapStateToProps = state => {
-    let { primateList } = state.primates;
-
-    return {
-        primateList
-    }
-}
  
- 
-export default connect(mapStateToProps, {})(DonateItems);
+export default DonateItems;

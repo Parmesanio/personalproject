@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import aboutImage from '../images/dr_deb_about.jpg';
 import './about.css';
 
 class About extends Component {

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Dropzone from 'react-dropzone';
 import request from 'superagent';
 import { connect } from 'react-redux';
-import { createProduct, editProduct} from '../../redux/reducer';
+import { createProduct, editProduct} from '../../redux/productReducer';
 import { withRouter } from 'react-router-dom';
 import './forms.css'
 const CLOUDINARY_UPLOAD_PRESET = 'talkinmonkeysproject',
@@ -25,9 +25,9 @@ class Create extends Component {
     }
     componentDidMount() {
         let currentProduct = {};
-        this.props.match.params.id ?
-        currentProduct = this.props.productList.find(item => item.id == this.props.match.params.id) :
-        null;
+        this.props.match.params.id &&(
+        currentProduct = this.props.productList.find(item => item.id == this.props.match.params.id)
+        )
         console.log(currentProduct, this.props.productList);
         
         this.setState({
@@ -157,7 +157,8 @@ class Create extends Component {
 }
 
 const mapStateToProps = state => {
-    let { admin, productList } = state.primates;
+    let { admin } = state.primates;
+    let { productList } = state.products;
 
     return {
         admin,

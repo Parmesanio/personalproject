@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { connect } from 'react-redux';
-import { logIn, setCart, setWeather } from '../../redux/reducer';
+import { setCart } from '../../redux/productReducer';
+import { logIn, setWeather } from '../../redux/primateReducer';
 
 import './header.css';
 
@@ -71,7 +72,8 @@ class Header extends Component {
     }
 }
 const mapStateToProps = state => {
-    let { admin, sessionCart } = state.primates;
+    let { admin } = state.primates;
+    let { sessionCart } = state.products;
     return {
         admin,
         sessionCart

@@ -13,7 +13,7 @@ class PrimateProfile extends Component {
         this.handleModal = this.handleModal.bind(this);
     }
     componentDidMount() {
-        axios.get(`/api/primates/${this.props.match.params.id}`)
+        axios.get(`/api/primates/${this.props.props.match.params.id}`)
             .then(res => {
                 this.setState({
                     profile: res.data,
@@ -31,7 +31,7 @@ class PrimateProfile extends Component {
         modal.src = image_url;        
     }
     render() { 
-        let { profile, images, modal } = this.state;
+        let { profile, modal } = this.state;
         
         let mappedProfile = profile.map(primate => {
             let { name, species, dob, gender, bio, photo_urls } = primate;
@@ -56,11 +56,11 @@ class PrimateProfile extends Component {
         })
     return ( 
         <div className="primateProfile-container">
-        <button onClick={() => this.props.history.goBack()}>Go Back</button>
+        <button onClick={() => this.props.props.history.goBack()}>Go Back</button>
             {mappedProfile}
             <div className={`modal-container ${modal ? 'modal-container-show' : '' }`} onClick={() => this.handleModal()}>
                     <div id="modal" className={`modal ${modal ? 'modal-show' : ''}`} >
-                    <img id="modal-image" src='' alt='Primate Modal Picture' />
+                    <img id="modal-image" src='' alt='Primate Modal' />
                     </div>
                 </div>
         </div>

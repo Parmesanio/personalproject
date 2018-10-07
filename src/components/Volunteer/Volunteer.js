@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {Map, InfoWindow, Marker, GoogleApiWrapper} from 'google-maps-react';
 import { connect } from 'react-redux';
-import { setWeather } from '../../redux/reducer';
+import { setWeather } from '../../redux/primateReducer';
 import axios from 'axios';
 import './volunteer.css';
 
@@ -56,7 +56,6 @@ class Volunteer extends Component{
         })
     }
     render(){
-        let { weather }  = this.props;
         const style = {
             height: '50vh',
             width: '100%'

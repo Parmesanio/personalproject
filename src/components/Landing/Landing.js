@@ -3,7 +3,7 @@ import About from '../About/About';
 import Donate from '../Donate/Donate';
 import Welcome from '../Welcome/Welcome';
 import { connect } from 'react-redux';
-import { setWeather } from '../../redux/reducer';
+import { setWeather } from '../../redux/primateReducer';
 import { withRouter } from 'react-router-dom';
 import FacebookProvider, { Page } from 'react-facebook';
 import video from '../images/Pexels Videos 3613.mp4';
@@ -27,9 +27,6 @@ class Landing extends Component {
     }
     render() { 
         let { weather } = this.props;
-        // let { city } = weather
-        // console.log(city);
-        console.log('WEATHER',weather);
         return ( 
             <div>
                 <div className="landing">
@@ -40,7 +37,7 @@ class Landing extends Component {
                             We Are<br /><br />
                             The Talkin' Monkeys Project
                         </h3>
-                        {weather.length !== 0 ? <p className="weather"> Clewiston, FL | {Math.round(weather.main.temp)}ºF <img src={`http://openweathermap.org/img/w/${weather.weather[0].icon}.png`} alt='Weather Icon' /></p> : <p>Weather Loading...</p>}
+                        {weather.length !== 0 ? <p className="weather"> Clewiston, FL | {Math.round(weather.main.temp)}ºF <img src={`https://openweathermap.org/img/w/${weather.weather[0].icon}.png`} alt='Weather Icon' /></p> : <p>Weather Loading...</p>}
                     </div>
                     <video width="400" controls autoPlay={true} preload="auto" loop={true}>
                     <source src={video} type="video/mp4" />

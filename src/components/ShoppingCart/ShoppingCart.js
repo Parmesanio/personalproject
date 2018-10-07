@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { removeFromCart, setCart } from '../../redux/reducer';
-import { Link, Redirect } from 'react-router-dom';
+import { removeFromCart, setCart } from '../../redux/productReducer';
+import { Link } from 'react-router-dom';
 import StripeCheckout from 'react-stripe-checkout';
 import axios from 'axios';
 import './shoppingcart.css';
@@ -90,7 +90,7 @@ class ShoppingCart extends Component {
     
 }
 const mapStateToProps = state => {
-    let { sessionCart, sessionTotal } = state.primates;
+    let { sessionCart, sessionTotal } = state.products;
     return {
         sessionCart,
         sessionTotal
