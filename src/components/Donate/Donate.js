@@ -11,7 +11,7 @@ const Donate = (props) => {
                 <br />
                 <p>Debbie and Tom use these dollars to help support the animals in many different ways: from buying the monkeys and apes their favorite foods to making their homes bigger and better.</p>
                 <br />
-                <h3>Find out how you can help <Link to="/donate">here</Link></h3>
+                <h3>Find out <Link to="/donate">how you can help</Link></h3>
                 <br />
                 
                 <form action="https://www.paypal.com/cgi-bin/webscr" method="post">

@@ -49,6 +49,9 @@ export function setProducts() {
     return {
         type: SET_PRODUCTS,
         payload: axios.get('/api/products').then(response => {
+            if (typeof(Storage) !== "undefined") {
+                localStorage.setItem("products", JSON.stringify(response.data))
+            }
             return response.data;
         }).catch(err => console.log('Err in setProducts', err))
     }

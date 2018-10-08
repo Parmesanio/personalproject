@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="theme-color" content="#000000">
+    <meta name="Description" content="Welcome to The Talkin' Monkeys Project, Inc. . Come and learn more about our sanctuary and our primates!">
     <script src="https://js.stripe.com/v3/"></script>
     <script src="https://checkout.stripe.com/checkout.js"></script>
     <!--
@@ -11,7 +12,6 @@
       homescreen on Android. See https://developers.google.com/web/fundamentals/engage-and-retain/web-app-manifest/
     -->
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json">
-    <!-- %PUBLIC_URL%/manifest.json -->
     <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
     <link href="https://fonts.googleapis.com/css?family=Dosis:600|Lato" rel="stylesheet">
     <!--
@@ -41,20 +41,6 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
-    <!-- <script src="./main.js"></script> -->
-    <script>
-      if('serviceWorker' in navigator) {
-          try {
-              navigator.serviceWorker.register('tmpSW.js');
-              console.log('tmpSW Registered in index.html');
-              console.log('looool');
-              
-              
-          } catch (error) {
-              console.log('Err in tmpSW', error);
-              
-          }
-      }
-    </script>
+    <script src="./main.js"></script>
 </body>
 </html>

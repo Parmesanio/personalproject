@@ -48,7 +48,12 @@ export default function primateReducer(state=initialState, action) {
 export function setPrimates() {
     return {
         type: SET_PRIMATES,
-        payload: axios.get('/api/primates').then(response => response.data).catch(err => console.log('Err in setPrimates', err))
+        payload: axios.get('/api/primates').then(response => {
+            if (typeof(Storage) !== "undefined") {
+                localStorage.setItem("primates", JSON.stringify(response.data))
+            }
+            return response.data
+        }).catch(err => console.log('Err in setPrimates', err))
     }
 }
 export function setWeather() {

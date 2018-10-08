@@ -6,9 +6,9 @@ import './productdetails.css';
 import PropTypes from 'prop-types';
 
 
-class ProductDetails extends Component {
-    render() { 
-        let { productList, addToCart, admin, match, history} = this.props.props;
+const ProductDetails = (props) => {
+    // render() { 
+        let { productList, addToCart, admin, match, history} = props.props;
         let product = productList.find(item => item.id == match.params.id)
         let { in_stock, name, price, product_url, dimensions, sizes, description } = product
     
@@ -36,7 +36,7 @@ class ProductDetails extends Component {
                 }
              </div>
          );
-    }
+    // }
 }
  
 export default ProductDetails;

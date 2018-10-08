@@ -38,25 +38,44 @@ class Meet extends Component {
     }
     render() { 
         let { primateList, admin, isLoading, deleteProfile } = this.props.props;
-        const mappedList = primateList.map((primate, i) => {
-            return (
-                <div className="primate" key={primate.id}>
-                    <Primate {...primate} isHovered={this.state.isHovered[i]} handleHoverEnter={this.handleHoverEnter(i)} handleHoverExit={this.handleHoverExit} />
-                   {admin && <div className="adminButtons">
-                       <Link to={`/add-primate/${primate.id}`}>Edit Profile</Link>
-                       <Link className="delete" to='/meet-the-primates' onClick={() => deleteProfile(primate.id)}>Delete Profile</Link>
-                       </div>}
-                </div>
-            )
-        })
+        let mappedStorage = [],
+            mappedList    = [];
+        if(navigator.onLine) {
+            mappedList = primateList.map((primate, i) => {
+                return (
+                    <div className="primate" key={primate.id}>
+                        <Primate 
+                            {...primate} 
+                            isHovered={this.state.isHovered[i]} 
+                            handleHoverEnter={this.handleHoverEnter(i)} 
+                            handleHoverExit={this.handleHoverExit} />
+                    {admin && <div className="adminButtons">
+                        <Link to={`/add-primate/${primate.id}`}>Edit Profile</Link>
+                        <Link className="delete" to='/meet-the-primates' onClick={() => deleteProfile(primate.id)}>Delete Profile</Link>
+                        </div>}
+                    </div>
+                )
+            })
+        }
     
+        if(localStorage.getItem('primates')) {
+            mappedStorage = JSON.parse(localStorage.getItem('primates')).map((primate, i) => {
+                return <div className="primate" key={primate.id}>
+                <Primate {...primate} isHovered={this.state.isHovered[i]} handleHoverEnter={this.handleHoverEnter(i)} handleHoverExit={this.handleHoverExit} />
+            {admin && <div className="adminButtons">
+                <Link to={`/add-primate/${primate.id}`}>Edit Profile</Link>
+                <Link className="delete" to='/meet-the-primates' onClick={() => deleteProfile(primate.id)}>Delete Profile</Link>
+                </div>}
+            </div>
+        }) 
+    }
         return ( 
             <div className="meet">
                 <h1 className="meet-greeting">Meet The Primates</h1>
                 <h3 className="meet-greeting">Select a diamond to view their profile</h3>
                 {isLoading && <span id="loader" className="loadingSpinner">Loading</span>}
                 <div className="diamondWrapper">
-                    {mappedList}
+                    {navigator.onLine ? mappedList : mappedStorage}
                 </div>
             </div>
          );

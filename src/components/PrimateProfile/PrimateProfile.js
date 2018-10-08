@@ -6,20 +6,26 @@ class PrimateProfile extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            profile: [],
-            image: [],
+            profile: {},
+            images: [],
             modal: false
         }
         this.handleModal = this.handleModal.bind(this);
     }
     componentDidMount() {
-        axios.get(`/api/primates/${this.props.props.match.params.id}`)
-            .then(res => {
-                this.setState({
-                    profile: res.data,
-                    images: res.data[0].photo_urls
-                })
-            }).catch(err => console.log('Err in primate profile axios.get', err));
+        if(navigator.onLine) {
+            let profile = this.props.props.primateList.find(primate => primate.id == this.props.props.match.params.id);
+            this.setState({
+                profile,
+                images: profile.photo_urls
+            })
+        } else {
+            let profile = JSON.parse(localStorage.getItem('primates')).find(primate => primate.id == this.props.props.match.params.id);
+            this.setState({
+                profile,
+                images: profile.photo_urls
+            })
+        }
     }
     handleModal(index) {
         this.setState({
@@ -28,36 +34,31 @@ class PrimateProfile extends Component {
         let modal = document.getElementById("modal-image");
         let { images } = this.state;
         let image_url = images.find((image, i) => i == index);
-        modal.src = image_url;        
+        modal.src = image_url;
+             
     }
     render() { 
-        let { profile, modal } = this.state;
-        
-        let mappedProfile = profile.map(primate => {
-            let { name, species, dob, gender, bio, photo_urls } = primate;
-            let mappedPhotos = photo_urls.map((photo, i) => {
-                return <img key={i} onClick={() => this.handleModal(i)} className="gallery-image" src={photo} alt={name} />
-            })
-            
-            return <div className="primateProfile" key={primate.id}>
-                <img src={profile[0].photo_urls[0]} alt={profile[0].name} />
-                <h1>{name}</h1>
-                <h2>{species}</h2>
-                <h3>Born: {dob}</h3>
-                <h4>Gender: {gender}</h4>
-                <p>{bio}</p>
-                <br />
-                <h3>Image Gallery</h3>
-                <div className="gallery">
-                    {mappedPhotos}
-                </div>
-            </div>
-
+        let { profile, modal, images } = this.state;
+        let { name, species, dob, gender, bio, photo_urls } = profile;
+        let mappedPhotos = images.map((photo, i) => {
+            return <img key={i} onClick={() => this.handleModal(i)} className="gallery-image" src={photo} alt={name} />
         })
     return ( 
         <div className="primateProfile-container">
         <button onClick={() => this.props.props.history.goBack()}>Go Back</button>
-            {mappedProfile}
+        <div className="primateProfile">
+            <img src={images[0]} alt={profile.name} />
+            <h1>{name}</h1>
+            <h2>{species}</h2>
+            <h3>Born: {dob}</h3>
+            <h4>Gender: {gender}</h4>
+            <p>{bio}</p>
+            <br />
+            <h3>Image Gallery</h3>
+            <div className="gallery">
+                {mappedPhotos}
+            </div>
+        </div>
             <div className={`modal-container ${modal ? 'modal-container-show' : '' }`} onClick={() => this.handleModal()}>
                     <div id="modal" className={`modal ${modal ? 'modal-show' : ''}`} >
                     <img id="modal-image" src='' alt='Primate Modal' />
