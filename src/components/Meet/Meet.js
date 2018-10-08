@@ -11,30 +11,20 @@ class Meet extends Component {
         this.state = { 
             isHovered: []
          }
-         this.handleHoverEnter = this.handleHoverEnter.bind(this);
-         this.handleHoverExit = this.handleHoverExit.bind(this);
+         this.handleHover = this.handleHover.bind(this);
     }
     componentDidMount() {
         window.scrollTo(0,0);
     }
-    handleHoverEnter(i) {
+    handleHover(i) {
         //CLOSURE
         return () => {
-            if (this.state.isHovered[i]) {
-                return this.state
-            }
             let isHovered = [...this.state.isHovered]
             isHovered[i] = !isHovered[i];
             this.setState({
                 ...this.state, isHovered
             })
         }
-    }
-    handleHoverExit() {
-        if (this.state.isHovered === false) {
-            return this.state;
-          }
-          this.setState({ ...this.state, isHovered: false });
     }
     render() { 
         let { primateList, admin, isLoading, deleteProfile } = this.props.props;
@@ -47,8 +37,8 @@ class Meet extends Component {
                         <Primate 
                             {...primate} 
                             isHovered={this.state.isHovered[i]} 
-                            handleHoverEnter={this.handleHoverEnter(i)} 
-                            handleHoverExit={this.handleHoverExit} />
+                            handleHover={this.handleHover(i)} 
+                             />
                     {admin && <div className="adminButtons">
                         <Link to={`/add-primate/${primate.id}`}>Edit Profile</Link>
                         <Link className="delete" to='/meet-the-primates' onClick={() => deleteProfile(primate.id)}>Delete Profile</Link>
@@ -61,7 +51,7 @@ class Meet extends Component {
         if(localStorage.getItem('primates')) {
             mappedStorage = JSON.parse(localStorage.getItem('primates')).map((primate, i) => {
                 return <div className="primate" key={primate.id}>
-                <Primate {...primate} isHovered={this.state.isHovered[i]} handleHoverEnter={this.handleHoverEnter(i)} handleHoverExit={this.handleHoverExit} />
+                <Primate {...primate} isHovered={this.state.isHovered[i]} handleHover={this.handleHover(i)} />
             {admin && <div className="adminButtons">
                 <Link to={`/add-primate/${primate.id}`}>Edit Profile</Link>
                 <Link className="delete" to='/meet-the-primates' onClick={() => deleteProfile(primate.id)}>Delete Profile</Link>
