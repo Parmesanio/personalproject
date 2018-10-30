@@ -40,26 +40,26 @@ self.addEventListener('fetch', event => {
         //Define response to given fetch events
     event.respondWith(cacheFirst(req)); 
     } 
-    // else {
-    //     event.respondWith(networkFirst(req));
-    // }
+    else {
+        event.respondWith(networkFirst(req));
+    }
 });
 
 async function cacheFirst(req) {
     const cachedResponse = await caches.match(req);
     return cachedResponse || fetch(req);
 }
-// async function networkFirst(req) {
-//     const cache = await caches.open('tmp-dynamic');
-//     try {
-//         const res = await fetch(req);
-//         cache.put(req, res.clone());
-//         return res;
-//     } catch (error) {
-//         const cachedResponse =  await cache.match(req);
-//         return cachedResponse || await caches.match('./fallback.json')
-//     }
-// }
+async function networkFirst(req) {
+    const cache = await caches.open('tmp-dynamic');
+    try {
+        const res = await fetch(req);
+        cache.put(req, res.clone());
+        return res;
+    } catch (error) {
+        const cachedResponse =  await cache.match(req);
+        return cachedResponse || await caches.match('./fallback.json')
+    }
+}
 
 let deferredPrompt;
 //Home Screen Prompt

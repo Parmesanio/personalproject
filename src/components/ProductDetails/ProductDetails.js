@@ -7,7 +7,6 @@ import PropTypes from 'prop-types';
 
 
 const ProductDetails = (props) => {
-    // render() { 
         let { productList, addToCart, admin, match, history} = props.props;
         let product = productList.find(item => item.id == match.params.id)
         let { in_stock, name, price, product_url, dimensions, sizes, description } = product
@@ -36,7 +35,6 @@ const ProductDetails = (props) => {
                 }
              </div>
          );
-    // }
 }
  
 export default ProductDetails;

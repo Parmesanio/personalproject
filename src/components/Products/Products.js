@@ -5,9 +5,8 @@ import { setProducts, addToCart } from '../../redux/primateReducer';
 import ProductDetails from '../ProductDetails/ProductDetails';
 import './products.css';
 const Products = (props) => {
-        let {  addToCart, productList } = props.props;
-        let mappedProducts = [],
-            mappedStorage  = [];
+        let { addToCart, productList } = props.props;
+        let mappedProducts = []
         if(navigator.onLine) {
             mappedProducts = productList.map(product => {
                 let { description, in_stock, name, price, product_url } = product
@@ -23,7 +22,7 @@ const Products = (props) => {
                 </div>
             });
         } else if(localStorage.getItem('products')) {
-            mappedStorage = JSON.parse(localStorage.getItem('products')).map((product, i) => {
+            mappedProducts = JSON.parse(localStorage.getItem('products')).map((product, i) => {
                 let { description, in_stock, name, price, product_url } = product
                 return <div key={product.id}>
                 <img src={product_url} alt={name} />
@@ -39,7 +38,7 @@ const Products = (props) => {
     }
         return ( 
             <div className="products">
-                {navigator.onLine ? mappedProducts : mappedStorage}
+                {mappedProducts}
             </div>
          );
 }

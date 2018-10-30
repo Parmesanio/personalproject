@@ -13,19 +13,16 @@ class PrimateProfile extends Component {
         this.handleModal = this.handleModal.bind(this);
     }
     componentDidMount() {
+        let profile = {};
         if(navigator.onLine) {
-            let profile = this.props.props.primateList.find(primate => primate.id == this.props.props.match.params.id);
-            this.setState({
-                profile,
-                images: profile.photo_urls
-            })
+            profile = this.props.props.primateList.find(primate => primate.id == this.props.props.match.params.id);
         } else {
-            let profile = JSON.parse(localStorage.getItem('primates')).find(primate => primate.id == this.props.props.match.params.id);
-            this.setState({
-                profile,
-                images: profile.photo_urls
-            })
+            profile = JSON.parse(localStorage.getItem('primates')).find(primate => primate.id == this.props.props.match.params.id);
         }
+        this.setState({
+            profile,
+            images: profile.photo_urls
+        })
     }
     handleModal(index) {
         this.setState({
