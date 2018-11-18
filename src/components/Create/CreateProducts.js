@@ -28,8 +28,6 @@ class Create extends Component {
         this.props.match.params.id &&(
         currentProduct = this.props.productList.find(item => item.id == this.props.match.params.id)
         )
-        console.log(currentProduct, this.props.productList);
-        
         this.setState({
             name: currentProduct.name,
             price: currentProduct.price,
@@ -41,8 +39,6 @@ class Create extends Component {
         })
     }
     onImageDrop(files) {
-        console.log(files);
-        
         this.setState({
           uploadedFiles: files
         });
@@ -50,16 +46,12 @@ class Create extends Component {
         this.handleImageUpload(files);
       }
       handleImageUpload(file) {
-          console.log('handleImageUpload', file);
-          
         let upload = request.post(CLOUDINARY_UPLOAD_URL)
                             .field('upload_preset', CLOUDINARY_UPLOAD_PRESET)
                             .field('file', file);
-                            console.log(upload);
                             
     
         upload.end((err, response) => {
-            console.log(response);
             
           if (err) {
             console.error(err);

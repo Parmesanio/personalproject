@@ -37,8 +37,6 @@ class Create extends Component {
         })
     }
     onImageDrop(files) {
-        console.log(files);
-        
         this.setState({
           uploadedFiles: files
         });
@@ -46,11 +44,9 @@ class Create extends Component {
         this.handleImageUpload(files);
       }
       handleImageUpload(files) {
-          console.log('handleImageUpload', files);
             let upload = request.post(CLOUDINARY_UPLOAD_URL)
             .field('upload_preset', CLOUDINARY_UPLOAD_PRESET)
             .field('file', files);
-            console.log(upload);
                         
 
             upload.end((err, response) => {

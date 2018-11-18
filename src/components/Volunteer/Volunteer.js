@@ -31,17 +31,12 @@ class Volunteer extends Component{
           })
         }
       };
-    componentDidMount() {
-        // this.props.setWeather();
-    }
     //NODEMAILER
     //reset
     resetForm(){
         document.getElementById('contact-form').reset();
     }
     handleSubmit(e){
-        console.log('fired');
-        
         e.preventDefault();
         const name = document.getElementById('name').value;
         const email = document.getElementById('email').value;

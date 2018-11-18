@@ -52,8 +52,6 @@ var transport = {
 
 //AUTH0
 app.get(`/callback`, (req, res) => {
-    console.log('/callback fired');
-    
     const payload = {
       client_id: process.env.REACT_APP_AUTH0_CLIENT_ID,
       client_secret: process.env.AUTH0_CLIENT_SECRET,
@@ -91,7 +89,6 @@ app.get(`/callback`, (req, res) => {
                         req.session.admin = userArray;
                         res.redirect('/');
                     }).catch(error => {
-                        console.log('error in db.create_user', error);
                         res.status(500).send('Unexpected error');
                     });
                 }
@@ -100,7 +97,6 @@ app.get(`/callback`, (req, res) => {
                 res.redirect('/admin/login');  
             }
             }).catch(error => {
-                console.log('error in db.get_user_by_auth0_id', error);
                 res.status(500).send('Unexpected error');
             });
         }
@@ -109,7 +105,6 @@ app.get(`/callback`, (req, res) => {
     .then(tradeAccessTokenForUserInfo)
     .then(storeUserInfoInDatabase)
     .catch(error => {
-      console.log('error in /callback', error);
       res.status(500).send('Unexpected error');
     });
   });
@@ -166,8 +161,6 @@ app.post('/api/logout', (req, res) => {
 })
 //NODEMAILER
 app.post('/send', (req, res, next) => {
-    console.log(req.body);
-    
     var name = req.body.name
     var email = req.body.email
     var message = req.body.message
@@ -208,7 +201,6 @@ app.post('/send', (req, res, next) => {
   app.post('/save-stripe-token', async (req, res) => {
     let { token, amount } = req.body
     let { email, id } = token;
-    console.log('VALUES ===================', email, id, amount.toFixed(0));
     
     try {
         let { status } = await stripe.customers.create({

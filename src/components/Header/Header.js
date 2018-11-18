@@ -27,7 +27,6 @@ class Header extends Component {
         })
     }
     logOut() {
-        console.log('fired');
         axios.post('/api/logout')
             .then(() => window.location.href="/")
             .catch(err => console.log('Err in logging out', err));
