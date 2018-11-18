@@ -22,10 +22,14 @@ a .moreInfo {
     align-items: center;
     margin: 0 0 1em 0;
 }
-@media only screen and (min-width: 992px) {
+@media only screen and (min-width: 768px) {
+    .products {
+        margin-top: 2em;
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: row;
+    }
     .products > div {
-        display: inline-block;
-        width: 33%;
-        min-height: 60vh;
+        width: 30%;
     }
 }

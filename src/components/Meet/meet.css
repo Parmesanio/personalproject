@@ -40,6 +40,17 @@
 .meetButton {
     margin: 0.5em auto;
 }
+@media only screen and (min-width: 500px) {
+    .diamondWrapper {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+    }
+    .primate {
+        width: 45%;
+    }
+}
 @media only screen and (min-width: 768px) {
     #loader {
         display: block;
@@ -99,6 +110,7 @@
         transform: rotate(45deg) scale(2);
     }
     .diamondWrapper{
+        display: inherit;
         width:70%;
         margin-left: -8%;
         transform-origin:65% 0%;

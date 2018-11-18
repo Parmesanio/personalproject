@@ -34,12 +34,20 @@
     padding: 12px 15px;
     text-decoration: none;
 }
+.donate > div {
+    width: 80%;
+    margin: 0 auto;
+}
 @media only screen and (min-width: 768px) {
     .donate-items {
         max-width: 60%;
         margin: 0 auto;
     }
     .items {
+        width: 100%;
+        margin: 0 auto;
+    }
+    .donate > div {
         width: 50%;
         margin: 0 auto;
     }

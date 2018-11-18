@@ -46,6 +46,7 @@
     nav a {
         color: #fff;
         display: block;
+        font-size: 3vh;
         padding: 0.8em 0 0.8em 0.5em;
         text-decoration: none;
         width: 100%;
@@ -92,8 +93,8 @@
           font-size: 1vw;
           overflow: initial;
           position: relative;
-          right: 5%;
-          width: 50%;
+          right: 0%;
+          width: 66%;
       }
       .brand {
           position: relative;

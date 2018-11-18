@@ -24,6 +24,8 @@
     color: #fff;
     padding: 20px;
     text-decoration: none;
+    width: 50%;
+    margin: 0 auto;
 }
 .aboutShow {
     opacity: 1;
